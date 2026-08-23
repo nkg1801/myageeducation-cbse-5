@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 37
+    namespace 'com.myAgeEducation.cbseClass5'
+
+    /*Version details
+	33: SDK update to 37
+        32: CueMaths ads removed
+        31: CueMaths Olympiad ad included
+        30. Quereka lite ad integrated
+        29: 28 was rejected due to unknown reason. No changes to this build except the build number.
+        28: Cuemath ad images copied to drawable folder to save firebase bandwidth
+        27: Shifted to its own firebase project CBSE-5
+        26: CueMath ad added to chapter, getmore-new used, getmore layout changed
+        25: GetMore Opening app link corrected
+        24: Remove chinese app added to GetMore, DB version changed to 4, sqlite question related to beetroot buds corrected
+        23:   -Database upgrade correction. Database version incremented to 3
+              -Get More to list aedugami apps
+    */
+
+    defaultConfig {
+        applicationId "com.myAgeEducation.cbseClass5"
+        minSdkVersion 26
+        targetSdkVersion 37
+        multiDexEnabled true
+        versionCode 33
+        versionName "3.3"
+    }
+
+    /*buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }*/
+
+    signingConfigs {
+        release {
+            storeFile file("../MySchoolMyTest_1.jks")
+            storePassword "duliajan"
+            keyAlias "myschoolmytest"
+            keyPassword "duliajan"
+        }
+    }
+
+    buildTypes {
+
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
+    implementation 'com.google.android.gms:play-services-ads:25.4.0'
+    implementation project(":cbsecommon_aar-release")
+    implementation 'com.google.firebase:firebase-database:22.0.1'
+    implementation 'com.google.firebase:firebase-auth:24.1.0'
+    implementation 'com.squareup.picasso:picasso:2.71828' // do not change this, it creates some problems - Nand
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
