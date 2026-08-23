@@ -67,8 +67,11 @@ import com.myAgeEducation.cbseClass5.maths.fractions.FractionTypes;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.MappingSkillConceptQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.measurement.MeasurementQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.multiples.MultipleQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.measurement.MeasurementQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.multiplication.MultiplicationQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.multiplication.MultiplicationStoryQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.pattern.NumberPatternQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.pattern.NumberSeriesQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.perimeterarea.PerimeterAreaQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.pictograph.PictographQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.placevalue.arrangedigits.ArrangeDigitsQuestionGenerator;
@@ -375,6 +378,10 @@ public class SubjectList extends Activity
                     question = DigitAtPlaceQuestionGenerator.generateQuestion();
                     break;
 
+                case 11:
+                    question = NumberSeriesQuestionGenerator.generateQuestion();
+                    break;
+
                 default:
                     //checked
                     question = NumberWordsQuestionGenerator.generateQuestion();
@@ -650,9 +657,20 @@ public class SubjectList extends Activity
         int chapterNumber = 9;
         String chapterName = "Shapes, Patterns and Nets";
         Util.allQuestions.removeIf(question -> question.getChapter() == chapterNumber);
+        final Random RANDOM = new Random();
 
         for(int i = 0; i < 20; i++) {
-            Question question = ShapesQuestionGenerator.generateQuestion();
+            Question question;
+            int type = RANDOM.nextInt(3);
+            if (type == 0) {
+                question = ShapesQuestionGenerator.generateQuestion();
+            } else if (type == 1) {
+                question = NumberPatternQuestionGenerator.generateQuestion();
+            } else {
+                // this question is also part of chapter-1.. need to think whether it should be here
+                question = NumberSeriesQuestionGenerator.generateQuestion();
+            }
+
             question.setChapter(chapterNumber);
             question.setChapterName(chapterName);
             Util.allQuestions.add(question);

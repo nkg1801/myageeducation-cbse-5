@@ -97,9 +97,7 @@ public class FractionSeriesQuestionGenerator
 
         for (int i = 0; i < 4; i++)
         {
-            sb.append("Fraction Series ")
-                    .append(i + 1)
-                    .append(":\n");
+            sb.append("Fraction Series ").append(i + 1).append(":\n");
 
             sb.append("====================\n");
 
@@ -107,9 +105,7 @@ public class FractionSeriesQuestionGenerator
 
             for (int j = 0; j < series.length; j++)
             {
-                sb.append(series[j].numerator)
-                        .append("/")
-                        .append(series[j].denominator);
+                sb.append(series[j].numerator).append("/").append(series[j].denominator);
 
                 if (j != series.length - 1)
                 {
