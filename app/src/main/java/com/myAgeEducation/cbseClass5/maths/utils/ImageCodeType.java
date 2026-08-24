@@ -20,6 +20,7 @@ public final class ImageCodeType
     public static final String TABLE = "TABLE";
     public static final String ANGLE = "ANGLE";
     public static final String CALENDAR = "CALENDAR";
+    public static final String DISTANCE_GRID_QUIZ = "DISTANCE-GRID-QUIZ";
 
     private ImageCodeType()
     {

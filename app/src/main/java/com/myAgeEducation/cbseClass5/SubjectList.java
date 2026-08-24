@@ -2,6 +2,7 @@ package com.myAgeEducation.cbseClass5;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -64,6 +65,7 @@ import com.myAgeEducation.cbseClass5.maths.fractions.FractionStoryQuestionGenera
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionTimeStoryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionTrueFalseQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionTypes;
+import com.myAgeEducation.cbseClass5.maths.mappingskills.DirectionDistanceQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.MappingSkillConceptQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.measurement.MeasurementQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.multiples.MultipleQuestionGenerator;
@@ -198,6 +200,7 @@ public class SubjectList extends Activity
                     }
 
                     if (!Util.Subject.isEmpty()) {
+                        Util.allQuestions.clear();
                         if(Util.Subject.equalsIgnoreCase("maths"))
                         {
                             openChapters("set1");
@@ -556,13 +559,24 @@ public class SubjectList extends Activity
 
     private void addQuestionsForChapterFourteen()
     {
-        // have fewer than 20 questions, so getting all available questions
         int chapterNumber = 14;
         String chapterName = "Mapping Skill";
         Util.allQuestions.removeIf(question -> question.getChapter() == chapterNumber);
         List<Question> questions = MappingSkillConceptQuestionGenerator.generateAllQuestions();
-        for(Question question : questions)
+        Collections.shuffle(questions);
+
+        List<Question> top10Questions = questions.subList(0,Math.min(10, questions.size()));
+
+        for(Question question : top10Questions)
         {
+            question.setChapter(chapterNumber);
+            question.setChapterName(chapterName);
+            Util.allQuestions.add(question);
+        }
+
+        // add another 10
+        for(int i = 0; i < 10; i++) {
+            Question question = DirectionDistanceQuestionGenerator.generateQuestion();
             question.setChapter(chapterNumber);
             question.setChapterName(chapterName);
             Util.allQuestions.add(question);
@@ -729,7 +743,7 @@ public class SubjectList extends Activity
 
     private void addQuestionsForChapterThirteen()
     {
-        int chapterNumber = 9;
+        int chapterNumber = 13;
         String chapterName = "Time and Temperature";
         Util.allQuestions.removeIf(question -> question.getChapter() == chapterNumber);
         final Random RANDOM = new Random();
@@ -759,7 +773,7 @@ public class SubjectList extends Activity
         }
     }
 
-    private void addGeneratedQuestions()
+    private void addGeneratedQuestionsForMaths()
     {
         addQuestionsForChapterOne();
         addQuestionsForChapterTwo();
@@ -780,7 +794,10 @@ public class SubjectList extends Activity
 
 	public void openChapters(String questionSet)
 	{
-        addGeneratedQuestions();
+        if(Util.Subject.equalsIgnoreCase("maths")) {
+            addGeneratedQuestionsForMaths();
+        }
+
 		Intent chapterIntent = new Intent();
 		chapterIntent.setClassName(Util.PACKAGE_NAME, Util.PACKAGE_NAME + ".Chapters");
 		chapterIntent.putExtra("question_set", questionSet);

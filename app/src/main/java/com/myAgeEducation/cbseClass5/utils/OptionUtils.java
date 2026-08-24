@@ -218,6 +218,11 @@ public class OptionUtils {
 
     public static void setQuestionOptions(Question question, String[] options)
     {
+        if (options == null || options.length < 2)
+        {
+            return;
+        }
+
         question.setOption1(options[0]);
         question.setOption2(options[1]);
         if(options.length > 2) {
@@ -230,6 +235,11 @@ public class OptionUtils {
 
     public static void setQuestionOptions(Question question, List<String> options)
     {
+        if (options == null || options.size() < 2)
+        {
+            return;
+        }
+
         question.setOption1(options.get(0));
         question.setOption2(options.get(1));
         if(options.size() > 2) {

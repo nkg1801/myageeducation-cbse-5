@@ -20,7 +20,7 @@ public class PersonNameUtil
                     "Hari", "Harish", "Hitesh", "Hrithik",
                     "James", "Johny", "Jitender", "Jitin",
                     "Ishana", "Iswar",
-                    "Kabir", "Kapil", "Karan", "Kartik", "Kiran", "Kishan", "Kripa", "Krishna",
+                    "Kabir", "Kamal", "Kapil", "Karan", "Kartik", "Kiran", "Kishan", "Kripa", "Krishna",
                     "Madhav", "Manish", "Manjunath", "Manoj", "Mohan", "Mohit",
                     "Nagaraj", "Nand", "Nataraj", "Nilay", "Nitin",
                     "Om", "Omprakash", "Omkar",
@@ -38,7 +38,7 @@ public class PersonNameUtil
                     "Lakshmi",
                     "Manju", "Meena", "Meenu", "Meera", "Megha", "Mihika",
                     "Nandita", "Neha", "Nisha", "Nita", "Neeta",
-                    "Pooja", "Poonam", "Preeti", "Priya", "Priyanka",
+                    "Pooja", "Poonam", "Preeti", "Priya", "Priyanka", "Pushpa",
                     "Rita", "Ritu", "Riya",
                     "Sanjana", "Sanju", "Saniya", "Shruti", "Simran", "Sita", "Sneha", "Sunita", "Sushma",
                     "Veena"

@@ -48,6 +48,7 @@ import com.myAgeEducation.cbseClass5.maths.decimals.DecimalImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.divisions.facts.DivisionPictureImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.NumericFractionImageGenerator;
+import com.myAgeEducation.cbseClass5.maths.mappingskills.DirectionDistanceImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.pictograph.PictographImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeParser;
@@ -595,6 +596,9 @@ public class QuestionPage extends Activity
 
 			case ImageCodeType.ANGLE:
 				return AngleImageGenerator.generateImage(imageData);
+
+			case ImageCodeType.DISTANCE_GRID_QUIZ:
+				return DirectionDistanceImageGenerator.generate(this, imageData);
 
 			default:
 				return null;
