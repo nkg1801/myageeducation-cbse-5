@@ -1,6 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.mappingskills;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -11,13 +11,31 @@ public class MappingTheme
     private final String verb;
     private final String startImage;
     private final DirectionObject[] objects;
+    private final String scaleLabel;
+    private final String unit;
+    private final int scaleMultiplier;
 
-    public MappingTheme(String subject, String verb, String startImage, DirectionObject[] objects)
+    /*
+     * Remembers the theme used for the previous question.
+     */
+    private static int lastThemeIndex = -1;
+
+    public MappingTheme(
+            String subject,
+            String verb,
+            String startImage,
+            DirectionObject[] objects,
+            String scaleLabel,
+            String unit,
+            int scaleMultiplier)
     {
         this.subject = subject;
         this.verb = verb;
         this.startImage = startImage;
         this.objects = objects;
+        this.scaleLabel = scaleLabel;
+        this.unit = unit;
+        this.scaleMultiplier = scaleMultiplier;
     }
 
     public String getSubject()
@@ -40,52 +58,92 @@ public class MappingTheme
         return objects;
     }
 
-    private static final MappingTheme[] THEMES = {
-            new MappingTheme("ant", "crawl", "ant", new DirectionObject[]{
-                    new DirectionObject("laddoos"),
-                    new DirectionObject("sugarcubes"),
-                    new DirectionObject("bread"),
-                    new DirectionObject(getRandomFruitName())
-            }),
-            new MappingTheme("ant", "crawl", "ant", new DirectionObject[]{
-                    new DirectionObject("laddoos"),
-                    new DirectionObject(getRandomFruitName()),
-                    new DirectionObject("bread"),
-                    new DirectionObject("toffee")
-            }),
-            /*new MappingTheme("honeybee", "fly", "honeybee", new DirectionObject[]{
-                    new DirectionObject("rose", "rose"),
-                    new DirectionObject("sunflower", "sunflower"),
-                    new DirectionObject("tulip", "tulip"),
-                    new DirectionObject("lily", "lily")
-            }),
-            new MappingTheme("rabbit", "hop", "rabbit", new DirectionObject[]{
-                    new DirectionObject("carrot", "carrot"),
-                    new DirectionObject("cabbage", "cabbage"),
-                    new DirectionObject("lettuce", "lettuce"),
-                    new DirectionObject("turnip", "turnip")
-            }),
-            new MappingTheme("mouse", "scurry", "mouse", new DirectionObject[]{
-                    new DirectionObject("cheese", "cheese"),
-                    new DirectionObject("cake", "cake"),
-                    new DirectionObject("cookie", "cookie"),
-                    new DirectionObject("corn", "corn")
-            })*/
+    public String getScaleLabel() {
+        return scaleLabel;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public int getScaleMultiplier() {
+        return scaleMultiplier;
+    }
+
+    private static class ThemeDefinition {
+        String subject;
+        String verb;
+        String startImage;
+        String[] objectNames;
+        String scaleLabel;
+        String unit;
+        int scaleMultiplier;
+
+        ThemeDefinition(String subject, String verb, String startImage, String[] objectNames, String scaleLabel, String unit, int scaleMultiplier) {
+            this.subject = subject;
+            this.verb = verb;
+            this.startImage = startImage;
+            this.objectNames = objectNames;
+            this.scaleLabel = scaleLabel;
+            this.unit = unit;
+            this.scaleMultiplier = scaleMultiplier;
+        }
+    }
+
+    private static final ThemeDefinition[] THEME_DEFS = {
+            //1
+            new ThemeDefinition("ant", "crawl", "ant", new String[]{
+                    "laddoos", "sugarcubes", "bread", "apple", "mango", "orange", "pear", "strawberry", "watermelon"
+            }, "1 cm", "cm", 1),
+
+            //2
+            new ThemeDefinition("honeybee", "fly", "honeybee", new String[]{
+                    "rose", "sunflower", "lotus", "hibiscus"
+            }, "1 cm", "cm", 1),
+
+            //3
+            new ThemeDefinition("rabbit", "hop", "rabbit", new String[]{
+                    "carrot", "cabbage", "turnip", "radish", "toffee"
+            }, "1 cm", "cm", 1),
+            /*new ThemeDefinition("rat", "scurry", "rat", new String[]{
+                    "cheese", "cake", "cookie", "corn", "bread", "nut", "cracker"
+            }, "1 cm", "cm", 1),*/
+
+            //4
+            new ThemeDefinition("bus", "drive", "bus", new String[]{
+                    "delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad", "ahmedabad", "pune", "indore", "lucknow", "noida",
+                    "bhopal", "mysuru", "nagpur", "kanpur", "nagpur", "patna", "surat", "jaipur", "chandigarh", "agra"
+            }, "100 km", "km", 100),
+
+            //5
+            new ThemeDefinition("car", "drive", "car", new String[]{
+                    "delhi", "mumbai", "kolkata", "chennai", "bengaluru", "hyderabad", "ahmedabad", "pune", "indore", "lucknow", "noida",
+                    "bhopal", "mysuru", "nagpur", "kanpur", "nagpur", "patna", "surat", "jaipur", "chandigarh", "agra"
+            }, "100 km", "km", 100)
     };
 
     public static MappingTheme getRandomTheme(Random random)
     {
-        return THEMES[random.nextInt(THEMES.length)];
-    }
+        int themeIndex;
+        do
+        {
+            themeIndex = random.nextInt(THEME_DEFS.length);
+        }
+        while (themeIndex == lastThemeIndex && THEME_DEFS.length > 1);
 
-    public static String getRandomFruitName()
-    {
-        final String[] FRUIT_NAMES_WITH_CORRESPONDING_RESOURCE_FILE = {
-                "apple", "mango", "orange", "pear", "strawberry", "watermelon"
-        };
-
-        List<String> list = Arrays.asList(FRUIT_NAMES_WITH_CORRESPONDING_RESOURCE_FILE);
-        Collections.shuffle(list);
-        return list.get(0);
+        lastThemeIndex = themeIndex;
+        ThemeDefinition def = THEME_DEFS[themeIndex];
+        
+        List<String> allNames = new ArrayList<>();
+        Collections.addAll(allNames, def.objectNames);
+        Collections.shuffle(allNames, random);
+        
+        // Pick 4 random objects for this specific question
+        DirectionObject[] selectedObjects = new DirectionObject[4];
+        for (int i = 0; i < 4; i++) {
+            selectedObjects[i] = new DirectionObject(allNames.get(i));
+        }
+        
+        return new MappingTheme(def.subject, def.verb, def.startImage, selectedObjects, def.scaleLabel, def.unit, def.scaleMultiplier);
     }
 }

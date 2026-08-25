@@ -10,19 +10,22 @@ public class DirectionDistanceQuestionData
     private final String answer;
     private final List<DirectionPoint> points;
     private final String startImage;
+    private final String scaleLabel;
 
     public DirectionDistanceQuestionData(
             String question,
             String[] options,
             String answer,
             List<DirectionPoint> points,
-            String startImage)
+            String startImage,
+            String scaleLabel)
     {
         this.question = question;
         this.options = options;
         this.answer = answer;
         this.points = points;
         this.startImage = startImage;
+        this.scaleLabel = scaleLabel;
     }
 
     public String getQuestion()
@@ -48,5 +51,10 @@ public class DirectionDistanceQuestionData
     public String getStartImage()
     {
         return startImage;
+    }
+
+    public String getScaleLabel()
+    {
+        return scaleLabel;
     }
 }

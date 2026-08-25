@@ -37,9 +37,6 @@ public class DirectionDistanceImageGenerator
     private static final int START_X = 0;
     private static final int START_Y = 0;
 
-    /*
-     * Resource names.
-     */
     private DirectionDistanceImageGenerator()
     {
         // Prevent object creation
@@ -48,15 +45,16 @@ public class DirectionDistanceImageGenerator
     public static Bitmap generate(Context context, String imageCode)
     {
         String[] parts = imageCode.split("_");
-        if (parts.length < 3)
+        if (parts.length < 4)
         {
             throw new IllegalArgumentException("Invalid image code: " + imageCode);
         }
 
         String startImage = parts[1];
-        int pointCount = Integer.parseInt(parts[2]);
+        String scaleLabel = parts[2];
+        int pointCount = Integer.parseInt(parts[3]);
         java.util.List<DirectionPoint> points = new java.util.ArrayList<>();
-        int k = 3;
+        int k = 4;
 
         for (int i = 0; i < pointCount; i++)
         {
@@ -71,13 +69,13 @@ public class DirectionDistanceImageGenerator
                 String direction = parts[k++];
                 moves.add(new DirectionMove(distance, direction));
             }
-            points.add(new DirectionPoint("", imageName, x, y, moves));
+            points.add(new DirectionPoint(imageName, imageName, x, y, moves));
         }
 
-        return generate(context, points, startImage);
+        return generate(context, points, startImage, scaleLabel);
     }
 
-    public static Bitmap generate(Context context, List<DirectionPoint> points, String startImage)
+    public static Bitmap generate(Context context, List<DirectionPoint> points, String startImage, String scaleLabel)
     {
         Bitmap bitmap =
                 Bitmap.createBitmap(
@@ -85,14 +83,8 @@ public class DirectionDistanceImageGenerator
                         IMAGE_HEIGHT,
                         Bitmap.Config.ARGB_8888);
 
-        Canvas canvas =
-                new Canvas(bitmap);
-
+        Canvas canvas = new Canvas(bitmap);
         canvas.drawColor(Color.WHITE);
-
-        /*
-         * Draw grid first.
-         */
         drawGrid(canvas);
 
         /*
@@ -105,140 +97,84 @@ public class DirectionDistanceImageGenerator
          */
         for (DirectionPoint point : points)
         {
-            drawPath(
-                    canvas,
-                    point);
+            drawPath(canvas, point);
         }
 
-        /*
-         * Draw destination objects.
-         */
-        for (DirectionPoint point : points)
-        {
-            drawObject(context, canvas, point);
-        }
-
-        drawSubject(context,canvas,points,startImage);
+        drawSubject(context, canvas, points, startImage);
         drawStartingDot(canvas);
 
-        /*
-         * Draw destination dots.
-         */
         for (DirectionPoint point : points)
         {
             drawDestinationDot(canvas, point);
         }
 
         /*
-         * 1 cm indicators.
+         * Draw destination objects or city labels.
          */
-        drawScaleIndicator(canvas);
+        for (DirectionPoint point : points)
+        {
+            drawObject(context, canvas, point, startImage);
+        }
+
+        /*
+         * Indicators.
+         */
+        drawScaleIndicator(canvas, scaleLabel);
 
         return bitmap;
     }
 
     private static void drawStartingDot(Canvas canvas)
     {
-        Paint paint =
-                new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        paint.setColor(
-                Color.rgb(210, 35, 45));
-
-        paint.setStyle(
-                Paint.Style.FILL);
-
-        canvas.drawCircle(
-                gridToPixelX(START_X),
-                gridToPixelY(START_Y),
-                12,
-                paint);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.rgb(0, 0, 255));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(gridToPixelX(START_X), gridToPixelY(START_Y), 25, paint);
     }
 
     private static void drawDestinationDot(Canvas canvas, DirectionPoint point)
     {
-        Paint paint =
-                new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        paint.setColor(
-                Color.rgb(210, 35, 45));
-
-        paint.setStyle(
-                Paint.Style.FILL);
-
-
-
-
-
-
-        canvas.drawCircle(
-                gridToPixelX(point.getX()),
-                gridToPixelY(point.getY()),
-                15,
-                paint);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.rgb(210, 35, 45));
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(gridToPixelX(point.getX()), gridToPixelY(point.getY()), 15, paint);
     }
 
     private static void drawGrid(Canvas canvas)
     {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
         paint.setColor(Color.rgb(180, 180, 180));
-
         paint.setStyle(Paint.Style.STROKE);
-
         paint.setStrokeWidth(1);
 
         for (int i = 0; i <= 10; i++)
         {
             float x = GRID_LEFT + i * CELL_SIZE;
-
-            canvas.drawLine(
-                    x,
-                    GRID_TOP,
-                    x,
-                    GRID_TOP + GRID_SIZE,
-                    paint);
+            canvas.drawLine(x, GRID_TOP, x, GRID_TOP + GRID_SIZE, paint);
         }
 
         for (int i = 0; i <= 10; i++)
         {
             float y = GRID_TOP + i * CELL_SIZE;
-
             canvas.drawLine(GRID_LEFT, y, GRID_LEFT + GRID_SIZE, y, paint);
         }
     }
 
-    private static void drawCompass(
-            Canvas canvas)
+    private static void drawCompass(Canvas canvas)
     {
         float left = 25;
         float top = 25;
         float size = 150;
 
-        Paint fillPaint =
-                new Paint(Paint.ANTI_ALIAS_FLAG);
+        Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        fillPaint.setColor(Color.WHITE);
+        fillPaint.setStyle(Paint.Style.FILL);
 
-        fillPaint.setColor(
-                Color.WHITE);
+        canvas.drawRect(left, top, left + size, top + size, fillPaint);
 
-        fillPaint.setStyle(
-                Paint.Style.FILL);
-
-        canvas.drawRect(
-                left,
-                top,
-                left + size,
-                top + size,
-                fillPaint);
-
-        Paint borderPaint =
-                new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        borderPaint.setColor(
-                Color.rgb(80, 50, 20));
-
-        borderPaint.setStyle(
-                Paint.Style.STROKE);
+        Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        borderPaint.setColor(Color.rgb(80, 50, 20));
+        borderPaint.setStyle(Paint.Style.STROKE);
 
         borderPaint.setStrokeWidth(4);
 
@@ -359,85 +295,48 @@ public class DirectionDistanceImageGenerator
 
     private static void drawPathArrow(Canvas canvas, int startX, int startY, int endX, int endY)
     {
-        float x1 =
-                gridToPixelX(startX);
-
-        float y1 =
-                gridToPixelY(startY);
-
-        float x2 =
-                gridToPixelX(endX);
-
-        float y2 =
-                gridToPixelY(endY);
-
+        float x1 = gridToPixelX(startX);
+        float y1 = gridToPixelY(startY);
+        float x2 = gridToPixelX(endX);
+        float y2 = gridToPixelY(endY);
         float dx = x2 - x1;
         float dy = y2 - y1;
-
-        double angle =
-                Math.atan2(dy, dx);
-
+        double angle = Math.atan2(dy, dx);
         float size = 14;
 
-        float xA =
-                x2
-                        - size
-                        * (float) Math.cos(
-                        angle - Math.PI / 6);
+        float xA = x2 - size * (float) Math.cos(angle - Math.PI / 6);
+        float yA = y2 - size * (float) Math.sin(angle - Math.PI / 6);
+        float xB = x2 - size * (float) Math.cos(angle + Math.PI / 6);
+        float yB = y2 - size * (float) Math.sin(angle + Math.PI / 6);
 
-        float yA =
-                y2
-                        - size
-                        * (float) Math.sin(
-                        angle - Math.PI / 6);
-
-        float xB =
-                x2
-                        - size
-                        * (float) Math.cos(
-                        angle + Math.PI / 6);
-
-        float yB =
-                y2
-                        - size
-                        * (float) Math.sin(
-                        angle + Math.PI / 6);
-
-        Paint arrowPaint =
-                new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        arrowPaint.setColor(
-                Color.rgb(220, 30, 40));
-
-        arrowPaint.setStyle(
-                Paint.Style.FILL);
-
-        Path arrow =
-                new Path();
-
+        Paint arrowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        arrowPaint.setColor(Color.rgb(220, 30, 40));
+        arrowPaint.setStyle(Paint.Style.FILL);
+        Path arrow = new Path();
         arrow.moveTo(x2, y2);
         arrow.lineTo(xA, yA);
         arrow.lineTo(xB, yB);
         arrow.close();
-
         canvas.drawPath(arrow, arrowPaint);
     }
 
-    private static void drawObject(Context context, Canvas canvas, DirectionPoint point)
+    private static boolean isVehicle(String subject)
     {
-        int resourceId =
-                context.getResources()
-                        .getIdentifier(
-                                point.getImageName(),
-                                "drawable",
-                                context.getPackageName());
+        return subject.equalsIgnoreCase("bus") || subject.equalsIgnoreCase("car");
+    }
+
+    private static void drawObject(Context context, Canvas canvas, DirectionPoint point, String startImage)
+    {
+        if (isVehicle(startImage))
+        {
+            drawCityLabel(canvas, point);
+            return;
+        }
+
+        int resourceId = context.getResources().getIdentifier(point.getImageName(),"drawable", context.getPackageName());
 
         if (resourceId == 0)
         {
-            /*
-             * Drawable not found.
-             * Don't crash the question generator.
-             */
             drawFallbackObject(canvas, point);
             return;
         }
@@ -495,6 +394,57 @@ public class DirectionDistanceImageGenerator
         canvas.drawBitmap(bitmap, null, destination, null);
     }
 
+    private static void drawCityLabel(Canvas canvas, DirectionPoint point)
+    {
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(40); // Larger and clearer
+        textPaint.setStyle(Paint.Style.FILL);
+        textPaint.setFakeBoldText(true);
+
+        String cityName = point.getName();
+        if (cityName != null && !cityName.isEmpty())
+        {
+            cityName = cityName.substring(0, 1).toUpperCase() + cityName.substring(1);
+        }
+        else
+        {
+            cityName = "City";
+        }
+
+        float centerX = gridToPixelX(point.getX());
+        float centerY = gridToPixelY(point.getY());
+
+        List<DirectionMove> moves = point.getMoves();
+        String lastDirection = moves != null && !moves.isEmpty() ? moves.get(moves.size() - 1).getDirection() : "east";
+        float textHeight = textPaint.getTextSize();
+
+        int offset = 30; // Increased offset to avoid overlapping the dot
+        switch (lastDirection)
+        {
+            case "north": // Came from bottom, put label BELOW
+                textPaint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText(cityName, centerX, centerY + offset + textHeight / 2, textPaint);
+                break;
+
+            case "south": // Came from top, put label ABOVE
+                textPaint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText(cityName, centerX, centerY - offset, textPaint);
+                break;
+
+            case "west": // Came from right, put label LEFT
+                textPaint.setTextAlign(Paint.Align.RIGHT);
+                canvas.drawText(cityName, centerX - offset, centerY + textHeight / 3, textPaint);
+                break;
+
+            case "east": // Came from left, put label RIGHT
+            default:
+                textPaint.setTextAlign(Paint.Align.LEFT);
+                canvas.drawText(cityName, centerX + offset, centerY + textHeight / 3, textPaint);
+                break;
+        }
+    }
+
     private static void drawSubject(Context context, Canvas canvas, List<DirectionPoint> points, String startImage)
     {
         int resourceId = context.getResources().getIdentifier(startImage, "drawable", context.getPackageName());
@@ -538,21 +488,24 @@ public class DirectionDistanceImageGenerator
         }
 
         float left, top;
-        int offset = 1; // Distance between the dot and the subject
+        int offset = 15; // Distance between the dot and the subject
         switch (firstDirection)
         {
             case "north": // First move is UP, put subject BELOW
                 left = centerX - width / 2;
                 top = centerY + offset;
                 break;
+
             case "south": // First move is DOWN, put subject ABOVE
                 left = centerX - width / 2;
                 top = centerY - offset - height;
                 break;
+
             case "east": // First move is RIGHT, put subject LEFT
                 left = centerX - offset - width;
                 top = centerY - height / 2;
                 break;
+
             case "west": // First move is LEFT, put subject RIGHT
             default:
                 left = centerX + offset;
@@ -572,7 +525,7 @@ public class DirectionDistanceImageGenerator
         canvas.drawCircle(gridToPixelX(point.getX()), gridToPixelY(point.getY()), 20, paint);
     }
 
-    private static void drawScaleIndicator(Canvas canvas)
+    private static void drawScaleIndicator(Canvas canvas, String scaleLabel)
     {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.BLACK);
@@ -582,58 +535,24 @@ public class DirectionDistanceImageGenerator
         canvas.drawLine(x, y, x + CELL_SIZE, y, paint);
         canvas.drawLine(x, y - 5, x, y + 5, paint);
         canvas.drawLine(x + CELL_SIZE, y - 5, x + CELL_SIZE, y + 5, paint);
-        paint.setTextSize(20);
+        paint.setTextSize(30);
         paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("1 cm", x + CELL_SIZE / 2, y - 8, paint);
+        canvas.drawText(scaleLabel, x + CELL_SIZE / 2, y - 8, paint);
 
         /*
          * Vertical 1 cm indicator.
          */
-        float verticalX =
-                GRID_LEFT
-                        + GRID_SIZE
-                        + 15;
+        float verticalX = GRID_LEFT + GRID_SIZE + 15;
+        float verticalTop = GRID_TOP;
+        float verticalBottom = GRID_TOP + CELL_SIZE;
 
-        float verticalTop =
-                GRID_TOP;
-
-        float verticalBottom =
-                GRID_TOP + CELL_SIZE;
-
-        canvas.drawLine(
-                verticalX,
-                verticalTop,
-                verticalX,
-                verticalBottom,
-                paint);
-
-        canvas.drawLine(
-                verticalX - 5,
-                verticalTop,
-                verticalX + 5,
-                verticalTop,
-                paint);
-
-        canvas.drawLine(
-                verticalX - 5,
-                verticalBottom,
-                verticalX + 5,
-                verticalBottom,
-                paint);
-
+        canvas.drawLine(verticalX, verticalTop, verticalX, verticalBottom, paint);
+        canvas.drawLine(verticalX - 5, verticalTop, verticalX + 5, verticalTop, paint);
+        canvas.drawLine(verticalX - 5, verticalBottom, verticalX + 5, verticalBottom, paint);
         canvas.save();
 
-        canvas.rotate(
-                -90,
-                verticalX + 8,
-                (verticalTop + verticalBottom) / 2);
-
-        canvas.drawText(
-                "1 cm",
-                verticalX + 8,
-                (verticalTop + verticalBottom) / 2,
-                paint);
-
+        canvas.rotate(-90, verticalX + 8,(verticalTop + verticalBottom) / 2);
+        canvas.drawText(scaleLabel,verticalX + 8, (verticalTop + verticalBottom) / 2 + 18, paint);
         canvas.restore();
     }
 

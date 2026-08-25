@@ -371,8 +371,7 @@ public class DirectionDistanceQuestionGenerator
 
     private static DirectionDistanceQuestionData generateOneMoveQuestion(List<DirectionPoint> points, MappingTheme theme)
     {
-        DirectionPoint point =
-                findPointWithOneMove(points);
+        DirectionPoint point = findPointWithOneMove(points);
 
         if (point == null)
         {
@@ -381,26 +380,35 @@ public class DirectionDistanceQuestionGenerator
 
         List<DirectionMove> moves = point.getMoves();
 
-        String question = "To collect food, the " + theme.getSubject() + " can only " + theme.getVerb() +
-                " along the dotted lines on the grid." +
-                "To get to the "
-                        + point.getName()
-                        + ", the " + theme.getSubject() + " has to " + theme.getVerb() + " "
-                        + "____ cm towards the "
-                        + "________ direction.";
+        String question;
 
-        String answer =
-                buildAnswer(moves);
+        if(isVehicle(theme.getSubject()))
+        {
+            question = "The blue dot represents the starting position. " +
+                    "To get to the "
+                    + point.getName()
+                    + ", the " + theme.getSubject() + " needs to " + theme.getVerb() + " "
+                    + "which of the following ways?";
+        }
+        else {
 
-        String[] options =
-                generateOptions(moves);
+            question = "To collect food, the " + theme.getSubject() + " can only " + theme.getVerb() +
+                    " along the dotted lines on the grid." +
+                    "To get to the "
+                    + point.getName()
+                    + ", the " + theme.getSubject() + " has to " + theme.getVerb() + " "
+                    + "____ " + theme.getUnit() + " towards the "
+                    + "________ direction.";
+        }
 
-        return new DirectionDistanceQuestionData(
-                question,
-                options,
-                answer,
-                points,
-                theme.getStartImage());
+        String answer = buildAnswer(moves, theme);
+        String[] options = generateOptions(moves, theme);
+        return new DirectionDistanceQuestionData(question, options, answer, points, theme.getStartImage(), theme.getScaleLabel());
+    }
+
+    private static boolean isVehicle(String subject)
+    {
+        return subject.equalsIgnoreCase("bus") || subject.equalsIgnoreCase("car");
     }
 
     private static DirectionDistanceQuestionData generateTwoMoveQuestion(List<DirectionPoint> points, MappingTheme theme)
@@ -414,28 +422,45 @@ public class DirectionDistanceQuestionGenerator
 
         List<DirectionMove> moves = point.getMoves();
 
-        String question = "To collect food, the " + theme.getSubject() + " can only " + theme.getVerb() +
-                " along the dotted lines on the grid." +
-                "To get to the "
-                        + point.getName()
-                        + ", the " + theme.getSubject() + " has to " + theme.getVerb() + " "
-                        + "____ cm towards the "
-                        + "________ direction; then "
-                        + "____ cm towards the "
-                        + "________ direction.";
+        String question;
+
+        if(isVehicle(theme.getSubject()))
+        {
+            question = "The blue dot represents the starting position. " +
+                    "To get to the "
+                    + point.getName()
+                    + ", the " + theme.getSubject() + " has to " + theme.getVerb() + " "
+                    + "____ " + theme.getUnit() + " towards the "
+                    + "________ direction; then "
+                    + "____ " + theme.getUnit() + " towards the "
+                    + "________ direction.";
+        }
+        else {
+
+            question = "To collect food, the " + theme.getSubject() + " can only " + theme.getVerb() +
+                    " along the dotted lines on the grid." +
+                    "To get to the "
+                    + point.getName()
+                    + ", the " + theme.getSubject() + " has to " + theme.getVerb() + " "
+                    + "____ " + theme.getUnit() + " towards the "
+                    + "________ direction; then "
+                    + "____ " + theme.getUnit() + " towards the "
+                    + "________ direction.";
+        }
 
         String answer =
-                buildAnswer(moves);
+                buildAnswer(moves, theme);
 
         String[] options =
-                generateOptions(moves);
+                generateOptions(moves, theme);
 
         return new DirectionDistanceQuestionData(
                 question,
                 options,
                 answer,
                 points,
-                theme.getStartImage());
+                theme.getStartImage(),
+                theme.getScaleLabel());
     }
 
     private static DirectionDistanceQuestionData generateThreeMoveQuestion(List<DirectionPoint> points, MappingTheme theme)
@@ -449,23 +474,36 @@ public class DirectionDistanceQuestionGenerator
 
         List<DirectionMove> moves = point.getMoves();
 
-        String question = "To collect food, the " + theme.getSubject() + " can only " + theme.getVerb() +
-                " along the dotted lines on the grid." +
-                "To get to the "
-                        + point.getName()
-                        + ", the " + theme.getSubject() + " needs to " + theme.getVerb() + " "
-                        + "which of the following ways?";
+        String question;
 
-        String answer = buildAnswer(moves);
+        if(isVehicle(theme.getSubject()))
+        {
+            question = "The blue dot represents the starting position. " +
+                    "To get to the "
+                    + point.getName()
+                    + ", the " + theme.getSubject() + " needs to " + theme.getVerb() + " "
+                    + "which of the following ways?";
+        }
+        else {
+            question = "To collect food, the " + theme.getSubject() + " can only " + theme.getVerb() +
+                    " along the dotted lines on the grid." +
+                    "To get to the "
+                    + point.getName()
+                    + ", the " + theme.getSubject() + " needs to " + theme.getVerb() + " "
+                    + "which of the following ways?";
+        }
 
-        String[] options = generateOptions(moves);
+        String answer = buildAnswer(moves, theme);
+
+        String[] options = generateOptions(moves, theme);
 
         return new DirectionDistanceQuestionData(
                 question,
                 options,
                 answer,
                 points,
-                theme.getStartImage());
+                theme.getStartImage(),
+                theme.getScaleLabel());
     }
 
     private static DirectionDistanceQuestionData generateMixedQuestion(List<DirectionPoint> points, MappingTheme theme)
@@ -491,7 +529,7 @@ public class DirectionDistanceQuestionGenerator
                 }
             }
 
-            question.append("____ cm towards _________");
+            question.append("____ " + theme.getUnit() + " towards _________");
 
             if (i < moves.size() - 1)
             {
@@ -503,15 +541,16 @@ public class DirectionDistanceQuestionGenerator
             }
         }
 
-        String answer = buildAnswer(moves);
-        String[] options = generateOptions(moves);
+        String answer = buildAnswer(moves, theme);
+        String[] options = generateOptions(moves, theme);
 
         return new DirectionDistanceQuestionData(
                 question.toString(),
                 options,
                 answer,
                 points,
-                theme.getStartImage());
+                theme.getStartImage(),
+                theme.getScaleLabel());
     }
 
     private static DirectionPoint findPointWithOneMove(List<DirectionPoint> points)
@@ -553,7 +592,7 @@ public class DirectionDistanceQuestionGenerator
         return null;
     }
 
-    private static String buildAnswer(List<DirectionMove> moves)
+    private static String buildAnswer(List<DirectionMove> moves, MappingTheme theme)
     {
         StringBuilder answer = new StringBuilder();
 
@@ -571,15 +610,15 @@ public class DirectionDistanceQuestionGenerator
                 }
             }
 
-            answer.append(move.getDistance()).append(" cm ").append(move.getDirection());
+            answer.append(move.getDistance() * theme.getScaleMultiplier()).append(" ").append(theme.getUnit()).append(" ").append(move.getDirection());
         }
 
         return answer.toString();
     }
 
-    private static String[] generateOptions(List<DirectionMove> correctMoves)
+    private static String[] generateOptions(List<DirectionMove> correctMoves, MappingTheme theme)
     {
-        String correctAnswer = buildAnswer(correctMoves);
+        String correctAnswer = buildAnswer(correctMoves, theme);
         List<String> options = new ArrayList<>();
         options.add(correctAnswer);
         Set<String> used = new HashSet<>();
@@ -591,7 +630,7 @@ public class DirectionDistanceQuestionGenerator
         {
             attempts++;
             List<DirectionMove> moves = generateDistractorMoves(correctMoves);
-            String option = buildAnswer(moves);
+            String option = buildAnswer(moves, theme);
             String normalized = normalizeOption(option);
 
             if (!used.contains(normalized))
@@ -607,7 +646,7 @@ public class DirectionDistanceQuestionGenerator
          */
         if (options.size() < 4)
         {
-            addFallbackOptions(options, correctMoves, used);
+            addFallbackOptions(options, correctMoves, used, theme);
         }
 
         Collections.shuffle(options, RANDOM);
@@ -728,7 +767,7 @@ public class DirectionDistanceQuestionGenerator
                 .toLowerCase();
     }
 
-    private static void addFallbackOptions(List<String> options, List<DirectionMove> correctMoves, Set<String> used)
+    private static void addFallbackOptions(List<String> options, List<DirectionMove> correctMoves, Set<String> used, MappingTheme theme)
     {
         for (int distance = 1; distance <= MAX_DISTANCE && options.size() < 4; distance++)
         {
@@ -741,7 +780,7 @@ public class DirectionDistanceQuestionGenerator
                     moves.add(new DirectionMove(distance, direction));
                 }
 
-                String option = buildAnswer(moves);
+                String option = buildAnswer(moves, theme);
                 String normalized = normalizeOption(option);
 
                 if (!used.contains(normalized))
@@ -757,6 +796,7 @@ public class DirectionDistanceQuestionGenerator
     {
         StringBuilder code = new StringBuilder(ImageCodeType.DISTANCE_GRID_QUIZ);
         code.append("_").append(data.getStartImage());
+        code.append("_").append(data.getScaleLabel());
         List<DirectionPoint> points = data.getPoints();
         code.append("_").append(points.size());
 
