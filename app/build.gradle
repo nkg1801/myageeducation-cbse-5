@@ -6,7 +6,9 @@ android {
     namespace 'com.myAgeEducation.cbseClass5'
 
     /*Version details
-	33: SDK update to 37
+        35: More mapping skills questions added
+        34: Maths questions are now generated dynamically
+	    33: SDK update to 37
         32: CueMaths ads removed
         31: CueMaths Olympiad ad included
         30. Quereka lite ad integrated
@@ -25,8 +27,8 @@ android {
         minSdkVersion 26
         targetSdkVersion 37
         multiDexEnabled true
-        versionCode 33
-        versionName "3.3"
+        versionCode 35
+        versionName "3.5"
     }
 
     /*buildTypes {
