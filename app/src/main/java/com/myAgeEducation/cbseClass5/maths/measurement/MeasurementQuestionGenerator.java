@@ -13,13 +13,11 @@ import java.util.Set;
 
 public class MeasurementQuestionGenerator
 {
-    private static final Random RANDOM =
-            new Random();
+    private static final Random RANDOM = new Random();
 
     public static Question generateQuestion()
     {
-        MeasurementQuestionData questionData =
-                generate();
+        MeasurementQuestionData questionData = generate();
 
         if (questionData.options.length != 4)
         {

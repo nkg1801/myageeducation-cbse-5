@@ -3,7 +3,7 @@ package com.myAgeEducation.cbseClass5.maths.datetimecalendar;
 
 import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.DAYS_IN_MONTH_TEMPLATE;
 import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.MONTH_TYPE_TEMPLATES;
-import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.TEMPLATES;
+import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.WEEK_DAY_TYPE_TEMPLATES;
 import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.YEAR_TEMPLATE;
 
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableData;
@@ -94,7 +94,7 @@ public class CalendarQuestionGenerator {
 
         Collections.shuffle(options, RANDOM);
         Question questionObj = new Question();
-        QuestionTemplate template = TEMPLATES.get(RANDOM.nextInt(TEMPLATES.size()));
+        QuestionTemplate template = WEEK_DAY_TYPE_TEMPLATES.get(RANDOM.nextInt(WEEK_DAY_TYPE_TEMPLATES.size()));
         questionObj.setQuestion(template.format(weekday, month, year));
 
         questionObj.setAnswer(String.valueOf(count));

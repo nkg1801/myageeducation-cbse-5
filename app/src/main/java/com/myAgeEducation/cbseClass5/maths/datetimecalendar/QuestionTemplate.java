@@ -44,7 +44,7 @@ public class QuestionTemplate {
         return String.format(template, day);
     }
 
-    public static final List<QuestionTemplate> TEMPLATES = Arrays.asList(
+    public static final List<QuestionTemplate> WEEK_DAY_TYPE_TEMPLATES = Arrays.asList(
             new QuestionTemplate("How many %ss are there in %s %d?", true),
             new QuestionTemplate("How many %ss are there in the given calendar?", false),
             new QuestionTemplate("How many %ss do you see in the given calendar?", false),
