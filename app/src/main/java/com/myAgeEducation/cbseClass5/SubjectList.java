@@ -67,6 +67,8 @@ import com.myAgeEducation.cbseClass5.maths.fractions.FractionTrueFalseQuestionGe
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionTypes;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.DirectionDistanceQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.MappingSkillConceptQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.mappingskills.NeighborhoodMapQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.mappingskills.ZooMapQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.measurement.MeasurementQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.multiples.MultipleQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.measurement.MeasurementQuestionGenerator;
@@ -565,8 +567,9 @@ public class SubjectList extends Activity
         List<Question> questions = MappingSkillConceptQuestionGenerator.generateAllQuestions();
         Collections.shuffle(questions);
 
-        List<Question> top10Questions = questions.subList(0,Math.min(10, questions.size()));
-
+        // 6 questions
+        int numberOfQuestions = 6;
+        List<Question> top10Questions = questions.subList(0, Math.min(numberOfQuestions, questions.size()));
         for(Question question : top10Questions)
         {
             question.setChapter(chapterNumber);
@@ -574,9 +577,26 @@ public class SubjectList extends Activity
             Util.allQuestions.add(question);
         }
 
-        // add another 10
-        for(int i = 0; i < 10; i++) {
+        // 6 questions
+        for(int i = 0; i < numberOfQuestions; i++) {
             Question question = DirectionDistanceQuestionGenerator.generateQuestion();
+            question.setChapter(chapterNumber);
+            question.setChapterName(chapterName);
+            Util.allQuestions.add(question);
+        }
+
+        // 4 questions
+        numberOfQuestions = 4;
+        for(int i = 0; i < numberOfQuestions; i++) {
+            Question question = ZooMapQuestionGenerator.generateQuestion();
+            question.setChapter(chapterNumber);
+            question.setChapterName(chapterName);
+            Util.allQuestions.add(question);
+        }
+
+        // 4 questions
+        for(int i = 0; i < numberOfQuestions; i++) {
+            Question question = NeighborhoodMapQuestionGenerator.generateQuestion();
             question.setChapter(chapterNumber);
             question.setChapterName(chapterName);
             Util.allQuestions.add(question);
