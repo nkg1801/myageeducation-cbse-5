@@ -50,6 +50,7 @@ import com.myAgeEducation.cbseClass5.maths.fractions.FractionImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.NumericFractionImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.DirectionDistanceImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.NeighborhoodMapImageGenerator;
+import com.myAgeEducation.cbseClass5.maths.mappingskills.MetroMapImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.ZooMapImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.pictograph.PictographImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableImageGenerator;
@@ -607,6 +608,9 @@ public class QuestionPage extends Activity
 
 			case ImageCodeType.NEIGHBORHOOD_MAP:
 				return NeighborhoodMapImageGenerator.generate(this, imageData);
+
+			case ImageCodeType.METRO_MAP:
+				return MetroMapImageGenerator.generate(this, imageData);
 
 			default:
 				return null;

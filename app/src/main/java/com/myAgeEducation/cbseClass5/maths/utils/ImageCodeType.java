@@ -23,6 +23,7 @@ public final class ImageCodeType
     public static final String DISTANCE_GRID_QUIZ = "DISTANCE-GRID-QUIZ";
     public static final String ZOO_MAP = "ZOO-MAP";
     public static final String NEIGHBORHOOD_MAP = "NEIGHBORHOOD-MAP";
+    public static final String METRO_MAP = "METRO-MAP";
 
     private ImageCodeType()
     {
