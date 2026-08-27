@@ -6,8 +6,7 @@ import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTempl
 import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.WEEK_DAY_TYPE_TEMPLATES;
 import static com.myAgeEducation.cbseClass5.maths.datetimecalendar.QuestionTemplate.YEAR_TEMPLATE;
 
-import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableData;
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 

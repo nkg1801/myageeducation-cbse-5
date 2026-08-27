@@ -1,5 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.measurement;
 
+import com.myAgeEducation.cbseClass5.maths.utils.NumberFormatUtil;
 import com.myAgeEducation.cbseClass5.maths.utils.PersonNameUtil;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
@@ -17,7 +18,15 @@ public class MeasurementQuestionGenerator
 
     public static Question generateQuestion()
     {
-        MeasurementQuestionData questionData = generate();
+        MeasurementQuestionType[] types = MeasurementQuestionType.values();
+        MeasurementQuestionType type = types[RANDOM.nextInt(types.length)];
+        
+        if (type == MeasurementQuestionType.MEASUREMENT_STORY_PROBLEM) {
+            return MeasurementStoryQuestionGenerator.generateQuestion();
+        }
+
+        MeasurementQuestionData questionData = generateQuestionData(type);
+        questionData.options = generateOptions(questionData);
 
         if (questionData.options.length != 4)
         {
@@ -66,6 +75,7 @@ public class MeasurementQuestionGenerator
                 return generateMixedUnitConversionOptions(Integer.parseInt(questionData.correctAnswer),100);
 
             case BASIC_UNIT_CONVERSION:
+            case CM_TO_MM:
                 return generateBasicConversionOptions(Integer.parseInt(questionData.correctAnswer));
 
             case COMPARE_DISTANCE:
@@ -82,6 +92,26 @@ public class MeasurementQuestionGenerator
 
             case MULTIPLE_UNIT_CONVERSION:
                 return generateMultipleConversionOptions(Integer.parseInt(questionData.correctAnswer));
+
+            case CM_MM_TO_MM:
+                return generateMixedUnitConversionOptions(Integer.parseInt(questionData.correctAnswer), 10);
+
+            /*case CM_TO_MM:
+                return generateBasicConversionOptions(Integer.parseInt(questionData.correctAnswer));*/
+
+            case MM_TO_CM_MM:
+            {
+                String[] parts = questionData.questionText.split(" ");
+                int totalMm = Integer.parseInt(parts[0]);
+                return generateTwoUnitOptions(totalMm, 10, "cm", "mm");
+            }
+
+            case CM_TO_M_CM:
+            {
+                String[] parts = questionData.questionText.split(" ");
+                int totalCm = Integer.parseInt(parts[0].replace(",", ""));
+                return generateTwoUnitOptions(totalCm, 100, "m", "cm");
+            }
 
             default:
                 throw new IllegalArgumentException("Unknown measurement question type: " + questionData.questionType);
@@ -106,12 +136,12 @@ public class MeasurementQuestionGenerator
             values.add(correctAnswer / 100);
         }
 
-        int fallback = correctAnswer + 100;
+        int extraVal = correctAnswer + 100;
 
         while (values.size() < 4)
         {
-            values.add(fallback);
-            fallback += 100;
+            values.add(extraVal);
+            extraVal += 100;
         }
 
         return shuffleNumberOptions(values);
@@ -189,12 +219,12 @@ public class MeasurementQuestionGenerator
         }
 
         // Defensive fallback
-        int fallback =
+        int extraVal =
                 correctAnswer + 1;
 
         while (values.size() < 4)
         {
-            values.add(fallback++);
+            values.add(extraVal++);
         }
 
         return shuffleNumberOptions(values);
@@ -227,6 +257,39 @@ public class MeasurementQuestionGenerator
         Collections.shuffle(options);
 
         return options.toArray(new String[0]);
+    }
+
+    private static String[] generateTwoUnitOptions(int totalValue, int divisor, String unit1, String unit2)
+    {
+        Set<String> options = new LinkedHashSet<>();
+
+        // Correct answer
+        int v1 = totalValue / divisor;
+        int v2 = totalValue % divisor;
+        options.add(v1 + " " + unit1 + " " + v2 + " " + unit2);
+
+        // Swap values if different and v2 is small enough
+        if (v1 != v2 && v2 > 0 && v2 < 100) {
+            options.add(v2 + " " + unit1 + " " + v1 + " " + unit2);
+        }
+
+        // Add variations
+        options.add((v1 * 10) + " " + unit1 + " " + v2 + " " + unit2);
+        if (v2 != 0) {
+            options.add(v1 + " " + unit1 + " " + (v2 * 10) + " " + unit2);
+        }
+        options.add((v1 + 1) + " " + unit1 + " " + v2 + " " + unit2);
+        options.add(v1 + " " + unit1 + " " + (v2 + 1) + " " + unit2);
+
+        List<String> list = new ArrayList<>(options);
+        Collections.shuffle(list);
+
+        // Ensure we have at least 4 options
+        while (list.size() < 4) {
+            list.add((v1 + RANDOM.nextInt(10) + 2) + " " + unit1 + " " + RANDOM.nextInt(divisor) + " " + unit2);
+        }
+
+        return list.subList(0, 4).toArray(new String[0]);
     }
 
     private static String[] generateNumberOptions(
@@ -533,6 +596,45 @@ public class MeasurementQuestionGenerator
                 correctAnswer =
                         String.valueOf(convertedValue);
 
+                break;
+            }
+
+            case CM_MM_TO_MM:
+            {
+                int cm = RANDOM.nextInt(19) + 1;
+                int mm = RANDOM.nextInt(9) + 1;
+                int totalMm = (cm * 10) + mm;
+                questionText = cm + " cm " + mm + " mm = ______ mm";
+                correctAnswer = String.valueOf(totalMm);
+                break;
+            }
+
+            case MM_TO_CM_MM:
+            {
+                int totalMm = RANDOM.nextInt(190) + 11;
+                int cm = totalMm / 10;
+                int mm = totalMm % 10;
+                questionText = totalMm + " mm = ______ cm ______ mm";
+                correctAnswer = cm + " cm " + mm + " mm";
+                break;
+            }
+
+            case CM_TO_MM:
+            {
+                int cm = RANDOM.nextInt(290) + 10;
+                int mm = cm * 10;
+                questionText = cm + " cm = ______ mm";
+                correctAnswer = String.valueOf(mm);
+                break;
+            }
+
+            case CM_TO_M_CM:
+            {
+                int totalCm = RANDOM.nextInt(9900) + 101;
+                int m = totalCm / 100;
+                int cm = totalCm % 100;
+                questionText = NumberFormatUtil.formatIndianNumber(totalCm) + " cm = ______ m ______ cm";
+                correctAnswer = m + " m " + cm + " cm";
                 break;
             }
 

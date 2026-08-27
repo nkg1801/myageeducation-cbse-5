@@ -46,16 +46,20 @@ import com.myAgeEducation.cbseClass5.maths.datetimecalendar.ClockImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.decimals.DecimalGridImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.decimals.DecimalImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.divisions.facts.DivisionPictureImageGenerator;
+import com.myAgeEducation.cbseClass5.maths.fractions.EquivalentFractionImageGenerator;
+import com.myAgeEducation.cbseClass5.maths.fractions.FractionChoiceGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.NumericFractionImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.DirectionDistanceImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.NeighborhoodMapImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.MetroMapImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.ZooMapImageGenerator;
+import com.myAgeEducation.cbseClass5.maths.pattern.PatternSequenceImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.pictograph.PictographImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeParser;
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeParser;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageGenerator;
 import com.myAgeEducation.cbsecommon.Question;
 
 import java.io.BufferedWriter;
@@ -560,6 +564,16 @@ public class QuestionPage extends Activity
 
 	private Bitmap getQuestionImage(String imageData)
 	{
+		if(imageData.contains(ImageCodeType.FRACTION_CHOICE))
+		{
+			return FractionChoiceGenerator.generateBitmap(imageData);
+		}
+
+		if(imageData.contains(ImageCodeType.RESOURCE_IMAGE))
+		{
+			return ImageGenerator.generate(this, imageData);
+		}
+
 		Map<String, String> values = ImageCodeParser.parse(imageData);
 
 		switch (Objects.requireNonNull(values.get("TYPE")))
@@ -611,6 +625,15 @@ public class QuestionPage extends Activity
 
 			case ImageCodeType.METRO_MAP:
 				return MetroMapImageGenerator.generate(this, imageData);
+
+			case ImageCodeType.PATTERN_SEQUENCE:
+				return PatternSequenceImageGenerator.generate(this, imageData);
+
+			case ImageCodeType.EQUIVALENT_FRACTION:
+				return EquivalentFractionImageGenerator.generate(imageData);
+
+			/*case ImageCodeType.FRACTION_CHOICE:
+				return FractionChoiceGenerator.generateBitmap(imageData);*/
 
 			default:
 				return null;

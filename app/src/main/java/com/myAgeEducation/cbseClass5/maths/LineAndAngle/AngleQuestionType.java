@@ -7,5 +7,6 @@ public enum AngleQuestionType
     WHICH_IS_ACUTE,
     WHICH_IS_RIGHT,
     WHICH_IS_GREATER,
-    SAME_TYPE
+    SAME_TYPE,
+    CLOCK_HAND_TURN
 }

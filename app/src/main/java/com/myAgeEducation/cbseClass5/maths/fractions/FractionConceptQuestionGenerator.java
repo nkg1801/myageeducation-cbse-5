@@ -109,16 +109,19 @@ public class FractionConceptQuestionGenerator
 
     public static Question generateQuestion()
     {
-        // 50% fixed concept question
-        // 50% dynamic numerator/denominator question
+        int type = RANDOM.nextInt(3);
 
-        if (RANDOM.nextBoolean())
+        if (type == 0)
         {
             return generateFixedQuestion();
         }
-        else
+        else if (type == 1)
         {
             return generateDynamicFractionQuestion();
+        }
+        else
+        {
+            return generateFractionTypeIdentificationQuestion();
         }
     }
 
@@ -141,6 +144,52 @@ public class FractionConceptQuestionGenerator
                 data.question,
                 data.correctAnswer,
                 options);
+    }
+
+    private static Question generateFractionTypeIdentificationQuestion()
+    {
+        boolean askGreaterThanOne = RANDOM.nextBoolean();
+        
+        int n_correct, d_correct;
+        if (askGreaterThanOne) {
+            // Improper: Numerator > Denominator
+            d_correct = 2 + RANDOM.nextInt(8);
+            n_correct = d_correct + 1 + RANDOM.nextInt(5);
+        } else {
+            // Proper: Numerator < Denominator
+            d_correct = 3 + RANDOM.nextInt(10);
+            n_correct = 1 + RANDOM.nextInt(d_correct - 1);
+        }
+        
+        String correctAnswer = n_correct + "/" + d_correct;
+        List<String> options = new ArrayList<>();
+        options.add(correctAnswer);
+        
+        while (options.size() < 4) {
+            int n_wrong, d_wrong;
+            if (askGreaterThanOne) {
+                // Wrong should be Proper: n < d
+                d_wrong = 3 + RANDOM.nextInt(12);
+                n_wrong = 1 + RANDOM.nextInt(d_wrong - 1);
+            } else {
+                // Wrong should be Improper: n > d
+                d_wrong = 2 + RANDOM.nextInt(8);
+                n_wrong = d_wrong + 1 + RANDOM.nextInt(5);
+            }
+            
+            String opt = n_wrong + "/" + d_wrong;
+            if (!options.contains(opt)) {
+                options.add(opt);
+            }
+        }
+        
+        Collections.shuffle(options);
+        
+        String questionText = askGreaterThanOne 
+                ? "Choose the fraction that is greater than one:"
+                : "Choose the fraction that is less than one (Proper Fraction):";
+                
+        return createQuestion(questionText, correctAnswer, options);
     }
 
 

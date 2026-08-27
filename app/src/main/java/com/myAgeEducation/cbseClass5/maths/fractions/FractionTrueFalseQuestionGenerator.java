@@ -1,6 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.fractions;
 
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 import com.myAgeEducation.cbsecommon.Question;
 
 public class FractionTrueFalseQuestionGenerator

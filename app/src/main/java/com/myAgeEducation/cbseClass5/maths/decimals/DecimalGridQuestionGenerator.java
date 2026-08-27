@@ -1,6 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.decimals;
 
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 

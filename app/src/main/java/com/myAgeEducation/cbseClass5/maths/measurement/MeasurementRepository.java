@@ -10,6 +10,12 @@ public class MeasurementRepository
             {
                     // Length
                     new MeasurementConversion(
+                            MeasurementUnit.MILLIMETRE,
+                            10,
+                            MeasurementUnit.CENTIMETRE,
+                            1),
+
+                    new MeasurementConversion(
                             MeasurementUnit.CENTIMETRE,
                             100,
                             MeasurementUnit.METRE,

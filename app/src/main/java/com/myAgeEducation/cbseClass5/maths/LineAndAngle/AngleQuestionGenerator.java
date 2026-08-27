@@ -1,7 +1,7 @@
 package com.myAgeEducation.cbseClass5.maths.LineAndAngle;
 import static com.google.android.gms.common.util.ArrayUtils.contains;
 
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 
@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class AngleQuestionGenerator
 {
@@ -67,9 +66,70 @@ public class AngleQuestionGenerator
             case SAME_TYPE:
                 return generateSameType();
 
+            case CLOCK_HAND_TURN:
+                return generateClockHandTurnQuestion();
+
             default:
                 throw new IllegalArgumentException("Unsupported angle question type: " + type);
         }
+    }
+
+    private static AngleQuestionData generateClockHandTurnQuestion()
+    {
+        int subType = RANDOM.nextInt(7);
+        String questionText;
+        String answer;
+        String[] options;
+
+        switch (subType)
+        {
+            case 0:
+                questionText = "When the minute hand moves by 15 minutes, it has made a _______ turn of the circle.";
+                answer = "1/4";
+                options = new String[]{"1/4", "1/2", "3/4", "full"};
+                break;
+            case 1:
+                questionText = "When the minute hand moves by 30 minutes, it has made a _______ turn of the circle.";
+                answer = "1/2";
+                options = new String[]{"1/4", "1/2", "3/4", "full"};
+                break;
+            case 2:
+                questionText = "When the minute hand moves by 45 minutes, it has made a _______ turn of the circle.";
+                answer = "3/4";
+                options = new String[]{"1/4", "1/2", "3/4", "full"};
+                break;
+            case 3:
+                questionText = "When the minute hand has turned by 1/12 of a full turn, it has moved by ______ minutes.";
+                answer = "5";
+                options = new String[]{"5", "10", "15", "20"};
+                break;
+            case 4:
+                questionText = "When the minute hand has turned by 1/6 of a full turn, it has moved by ______ minutes.";
+                answer = "10";
+                options = new String[]{"5", "10", "15", "20"};
+                break;
+            case 5:
+                questionText = "When the minute hand has turned by 4/12 of a full turn, it has moved by ______ minutes.";
+                answer = "20";
+                options = new String[]{"10", "20", "30", "40"};
+                break;
+            default:
+                questionText = "When the minute hand has turned a full-circle, it has moved by ______ minutes.";
+                answer = "60";
+                options = new String[]{"15", "30", "45", "60"};
+                break;
+        }
+
+        List<String> shuffledOptions = new ArrayList<>();
+        Collections.addAll(shuffledOptions, options);
+        Collections.shuffle(shuffledOptions, RANDOM);
+
+        return new AngleQuestionData(
+                questionText,
+                answer,
+                shuffledOptions.toArray(new String[0]),
+                AngleQuestionType.CLOCK_HAND_TURN,
+                0);
     }
 
     private static String[] generateAngleNameOptions(String correctAnswer)

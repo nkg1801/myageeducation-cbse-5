@@ -1,5 +1,7 @@
 package com.myAgeEducation.cbseClass5;
 
+import static com.myAgeEducation.cbseClass5.science.ScienceQuestionGenerator.SCIENCE_CHAPTER_NAMES;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +41,8 @@ import com.myAgeEducation.cbseClass5.maths.LineAndAngle.AngleImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.LineAndAngle.AngleQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.LineAndAngle.LineAndAngleQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.additions.AdditionQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.additions.AdditionSubtractionRelationshipGenerator;
+import com.myAgeEducation.cbseClass5.maths.additions.MixedAdditionSubtractionStoryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.additions.AdditionStoryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.average.AverageQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.charts.BarChartQuestionGenerator;
@@ -55,7 +59,9 @@ import com.myAgeEducation.cbseClass5.maths.divisions.facts.DivisionFactQuestionG
 import com.myAgeEducation.cbseClass5.maths.divisions.facts.DivisionPictureQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.divisions.story.DivisionStoryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.factors.FactorQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.fractions.EquivalentFractionQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionAgeQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.fractions.FractionComparisonQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionConceptQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionOfMeasurementQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.fractions.FractionOfNumberQuestionGenerator;
@@ -76,7 +82,9 @@ import com.myAgeEducation.cbseClass5.maths.measurement.MeasurementQuestionGenera
 import com.myAgeEducation.cbseClass5.maths.multiplication.MultiplicationQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.multiplication.MultiplicationStoryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.pattern.NumberPatternQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.pattern.PatternSequenceQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.pattern.NumberSeriesQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.placevalue.palindromes.PalindromeNumberQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.perimeterarea.PerimeterAreaQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.pictograph.PictographQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.placevalue.arrangedigits.ArrangeDigitsQuestionGenerator;
@@ -89,12 +97,14 @@ import com.myAgeEducation.cbseClass5.maths.placevalue.numbercomparison.NumberCom
 import com.myAgeEducation.cbseClass5.maths.placevalue.numberorder.NumberOrderQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.placevalue.numberword.NumberWordsQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.placevalue.romannumerals.RomanNumeralsQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.placevalue.rounding.RoundingQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.placevalue.standardform.StandardFormQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.placevalue.successorpredecessor.SuccessorPredecessorQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.shapes.ShapesQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.subtractions.SubtractionFactQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.subtractions.SubtractionStoryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableQuestionGenerator;
+import com.myAgeEducation.cbseClass5.science.ScienceQuestionGenerator;
 import com.myAgeEducation.cbsecommon.Question;
 
 public class SubjectList extends Activity
@@ -204,7 +214,7 @@ public class SubjectList extends Activity
 
                     if (!Util.Subject.isEmpty()) {
                         Util.allQuestions.clear();
-                        if(Util.Subject.equalsIgnoreCase("maths"))
+                        if(Util.Subject.equalsIgnoreCase("maths") || Util.Subject.equalsIgnoreCase("science"))
                         {
                             openChapters("set1");
                         }
@@ -316,6 +326,16 @@ public class SubjectList extends Activity
 		startActivity(subPage);
 	}
 
+    private void addScienceQuestions()
+    {
+        Util.allQuestions.clear();
+        for(int i = 0; i< ScienceQuestionGenerator.SCIENCE_CHAPTER_NAMES.size();i++)
+        {
+            List<Question> scienceQuestions = ScienceQuestionGenerator.getQuestions(i+1);
+            Util.allQuestions.addAll(scienceQuestions);
+        }
+    }
+
     private void addQuestionsForChapterOne()
     {
         int chapterNumber = 1;
@@ -328,7 +348,7 @@ public class SubjectList extends Activity
 
         for(int i = 0; i < 20; i++)
         {
-            randomNumber = RANDOM.nextInt(13);
+            randomNumber = RANDOM.nextInt(16);
 
             switch(randomNumber)
             {
@@ -388,11 +408,25 @@ public class SubjectList extends Activity
                     question = NumberSeriesQuestionGenerator.generateQuestion();
                     break;
 
+                case 12:
+                    question = PatternSequenceQuestionGenerator.generateQuestion();
+                    break;
+
+                case 13:
+                    //checked
+                    question = RoundingQuestionGenerator.generateQuestion();
+                    break;
+
+                case 14:
+                    question = PalindromeNumberQuestionGenerator.generateQuestion();
+                    break;
+
                 default:
                     //checked
                     question = NumberWordsQuestionGenerator.generateQuestion();
             }
             //question = MissingPlaceValueQuestionGenerator.generateQuestion();
+            //question = RoundingQuestionGenerator.generateQuestion();
             question.setChapter(chapterNumber);
             question.setChapterName(chapterName);
             Util.allQuestions.add(question);
@@ -410,7 +444,7 @@ public class SubjectList extends Activity
         Question question;// = new Question();
 
         for(int i = 0; i < 20; i++) {
-            randomNumber = RANDOM.nextInt(4);
+            randomNumber = RANDOM.nextInt(6);
 
             switch(randomNumber)
             {
@@ -424,6 +458,14 @@ public class SubjectList extends Activity
 
                 case 2:
                     question = SubtractionFactQuestionGenerator.generateQuestion();
+                    break;
+
+                case 3:
+                    question = MixedAdditionSubtractionStoryQuestionGenerator.generateQuestion();
+                    break;
+
+                case 4:
+                    question = AdditionSubtractionRelationshipGenerator.generateQuestion();
                     break;
 
                 default:
@@ -551,9 +593,19 @@ public class SubjectList extends Activity
                     question = FractionConceptQuestionGenerator.generateQuestion();
                     break;
 
+                case EQUIVALENT_FRACTIONS:
+                    //checked
+                    question = EquivalentFractionQuestionGenerator.generateQuestion();
+                    break;
+
+                case FRACTION_COMPARISON:
+                    question = FractionComparisonQuestionGenerator.generateQuestion();
+                    break;
+
                 default:
                     question = FractionQuestionGenerator.generateQuestion();
             }
+            //question = FractionQuestionGenerator.generateQuestion(); //todo:
             question.setChapter(chapterNumber);
             question.setChapterName(chapterName);
             Util.allQuestions.add(question);
@@ -703,13 +755,14 @@ public class SubjectList extends Activity
 
         for(int i = 0; i < 20; i++) {
             Question question;
-            int type = RANDOM.nextInt(3);
-            if (type == 0) {
+            int type = RANDOM.nextInt(100);
+            if (type < 30) {
                 question = ShapesQuestionGenerator.generateQuestion();
-            } else if (type == 1) {
+            } else if (type < 60) {
                 question = NumberPatternQuestionGenerator.generateQuestion();
+            } else if (type < 80) {
+                question = PatternSequenceQuestionGenerator.generateQuestion();
             } else {
-                // this question is also part of chapter-1.. need to think whether it should be here
                 question = NumberSeriesQuestionGenerator.generateQuestion();
             }
 
@@ -824,6 +877,10 @@ public class SubjectList extends Activity
 	{
         if(Util.Subject.equalsIgnoreCase("maths")) {
             addGeneratedQuestionsForMaths();
+        }
+        else if(Util.Subject.equalsIgnoreCase("science"))
+        {
+            addScienceQuestions();
         }
 
 		Intent chapterIntent = new Intent();

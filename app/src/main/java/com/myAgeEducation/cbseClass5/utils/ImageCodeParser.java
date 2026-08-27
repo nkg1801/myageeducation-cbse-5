@@ -1,4 +1,4 @@
-package com.myAgeEducation.cbseClass5.maths.utils;
+package com.myAgeEducation.cbseClass5.utils;
 import java.util.HashMap;
 import java.util.Map;
 

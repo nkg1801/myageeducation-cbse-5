@@ -26,13 +26,9 @@ public class FractionQuestionGenerator {
     {
         FractionQuestionType type =
                 FractionQuestionType.values()[
-                        RANDOM.nextInt(
-                                FractionQuestionType.values().length)];
+                        RANDOM.nextInt(FractionQuestionType.values().length)];
 
         FractionData fraction = FractionImageGenerator.randomFraction();
-        //type = FractionQuestionType.NUMERATOR;
-
-        Log.d("NKG_LOG", type.name());
 
         switch (type)
         {
@@ -72,7 +68,6 @@ public class FractionQuestionGenerator {
     {
         ChoiceFractionData data = FractionChoiceGenerator.generateIdentifyFractionQuestion();
         Question question = new Question();
-
         question.setQuestion(data.questionText);
         question.setImage(data.imageCode);
 
@@ -99,21 +94,11 @@ public class FractionQuestionGenerator {
         };
 
         String questionText = questionVariants[RANDOM.nextInt(questionVariants.length)];
-
         String answer =	fractionToWords(numerator, denominator);
-
         List<String> options = OptionUtils.generateFractionOptions(numerator, denominator);
-
         Question question = new Question();
-
         question.setQuestion(questionText);
-
-        /*question.setOption1(options.get(0));
-        question.setOption2(options.get(1));
-        question.setOption3(options.get(2));
-        question.setOption4(options.get(3));*/
         OptionUtils.setQuestionOptions(question, options);
-
         question.setAnswer(answer);
         question.setImage(fraction.getImageCode());
         return question;
@@ -123,7 +108,6 @@ public class FractionQuestionGenerator {
     {
         int numerator = fraction.numerator;
         int denominator = fraction.denominator;
-
         int uncoloured = denominator - numerator;
 
         String[] questionVariants = {
@@ -135,37 +119,17 @@ public class FractionQuestionGenerator {
         };
 
         String questionText = questionVariants[RANDOM.nextInt(questionVariants.length)];
-
-        String answer =
-                fractionToWords(
-                        uncoloured,
-                        denominator);
-
-        List<String> options =
-                OptionUtils.generateFractionOptions(
-                        uncoloured,
-                        denominator);
-
+        String answer = fractionToWords(uncoloured, denominator);
+        List<String> options = OptionUtils.generateFractionOptions(uncoloured, denominator);
         Question question = new Question();
-
         question.setQuestion(questionText);
-
-        /*question.setOption1(options.get(0));
-        question.setOption2(options.get(1));
-        question.setOption3(options.get(2));
-        question.setOption4(options.get(3));*/
-
         OptionUtils.setQuestionOptions(question, options);
-
         question.setAnswer(answer);
-
         question.setImage(fraction.getImageCode());
-
         return question;
     }
 
-    public static Question generateColouredPartsQuestion(
-            FractionData fraction)
+    public static Question generateColouredPartsQuestion(FractionData fraction)
     {
         int numerator = fraction.numerator;
         int denominator = fraction.denominator;
@@ -201,7 +165,6 @@ public class FractionQuestionGenerator {
     {
         int numerator = fraction.numerator;
         int denominator = fraction.denominator;
-
         int uncoloured = denominator - numerator;
 
         String[] questionVariants = {
@@ -215,24 +178,13 @@ public class FractionQuestionGenerator {
         };
 
         String questionText = questionVariants[RANDOM.nextInt(questionVariants.length)];
-
         String answer = String.valueOf(uncoloured);
-
         List<String> options = OptionUtils.generateNumberOptions(uncoloured,denominator);
-
         Question question = new Question();
-
         question.setQuestion(questionText);
-
-        question.setOption1(options.get(0));
-        question.setOption2(options.get(1));
-        question.setOption3(options.get(2));
-        question.setOption4(options.get(3));
-
+        OptionUtils.setQuestionOptions(question, options);
         question.setAnswer(answer);
-
         question.setImage(fraction.getImageCode());
-
         return question;
     }
 
@@ -251,24 +203,13 @@ public class FractionQuestionGenerator {
         };
 
         String questionText = questionVariants[RANDOM.nextInt(questionVariants.length)];
-
         String answer = String.valueOf(denominator);
-
         List<String> options =OptionUtils.generateDenominatorOptions(denominator);
-
         Question question = new Question();
-
         question.setQuestion(questionText);
-
-        question.setOption1(options.get(0));
-        question.setOption2(options.get(1));
-        question.setOption3(options.get(2));
-        question.setOption4(options.get(3));
-
+        OptionUtils.setQuestionOptions(question, options);
         question.setAnswer(answer);
-
         question.setImage(fraction.getImageCode());
-
         return question;
     }
 
@@ -292,10 +233,7 @@ public class FractionQuestionGenerator {
         List<String> options = OptionUtils.generateNumberOptions(numerator,denominator);
         Question question = new Question();
         question.setQuestion(questionText);
-        question.setOption1(options.get(0));
-        question.setOption2(options.get(1));
-        question.setOption3(options.get(2));
-        question.setOption4(options.get(3));
+        OptionUtils.setQuestionOptions(question, options);
         question.setAnswer(answer);
         question.setImage(fraction.getImageCode());
         return question;
@@ -316,45 +254,29 @@ public class FractionQuestionGenerator {
                 "Find the denominator of the given fraction."
         };
 
-        String questionText =
-                questionVariants[
-                        RANDOM.nextInt(questionVariants.length)];
+        String questionText = questionVariants[RANDOM.nextInt(questionVariants.length)];
 
         String answer = String.valueOf(denominator);
-
         List<String> options = OptionUtils.generateDenominatorQuestionOptions(numerator,denominator);
-
         Question question = new Question();
-
         question.setQuestion(questionText);
-
-        question.setOption1(options.get(0));
-        question.setOption2(options.get(1));
-        question.setOption3(options.get(2));
-        question.setOption4(options.get(3));
-
+        OptionUtils.setQuestionOptions(question, options);
         question.setAnswer(answer);
-
         question.setImage(fraction.getImageCode());
-
         return question;
     }
 
     private static Question generateOddOneOutFractionQuestion()
     {
         ChoiceFractionData data = FractionChoiceGenerator.generateOddOneOutQuestion();
-
         Question question = new Question();
         question.setQuestion(data.questionText);
         question.setImage(data.imageCode);
-
         question.setOption1("A");
         question.setOption2("B");
         question.setOption3("C");
         question.setOption4("D");
-
         question.setAnswer(data.answer);
-
         return question;
     }
 
@@ -404,14 +326,11 @@ public class FractionQuestionGenerator {
                 denominatorWord = denominator + "th";
         }
 
-        if (numerator > 1 &&
-                !denominatorWord.endsWith("s"))
+        if (numerator > 1 && !denominatorWord.endsWith("s"))
         {
             denominatorWord += "s";
         }
 
-        return numbers[numerator]
-                + " "
-                + denominatorWord;
+        return numbers[numerator] + " " + denominatorWord;
     }
 }

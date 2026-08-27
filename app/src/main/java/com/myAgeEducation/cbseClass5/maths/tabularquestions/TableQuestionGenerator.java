@@ -984,15 +984,32 @@ public class TableQuestionGenerator {
                     smaller = temp;
                 }
 
-                questionText =
-                        data.scenario.introduction
-                                + " How many more "
-                                + data.scenario.pluralItemName
-                                + " does "
-                                + data.getLabel(larger)
-                                + " have than "
-                                + data.getLabel(smaller)
-                                + "?";
+                String comparisonUnit = data.scenario.unit;
+                String question;
+
+                if (comparisonUnit == null || comparisonUnit.trim().isEmpty())
+                {
+                    question = " How many more " + data.scenario.pluralItemName + " does " + data.getLabel(larger) + " have than " + data.getLabel(smaller) + "?";
+                }
+                else if (comparisonUnit.equalsIgnoreCase("minutes") || comparisonUnit.equalsIgnoreCase("hours") || comparisonUnit.equalsIgnoreCase("days") || comparisonUnit.equalsIgnoreCase("years"))
+                {
+                    question = " How many " + comparisonUnit + " longer is " + data.getLabel(larger) + " than " + data.getLabel(smaller) + "?";
+                }
+                else if (comparisonUnit.equalsIgnoreCase("GB") || comparisonUnit.equalsIgnoreCase("km")
+                        || comparisonUnit.equalsIgnoreCase("kg") || comparisonUnit.equalsIgnoreCase("rupees")
+                        || comparisonUnit.equalsIgnoreCase("litres") || comparisonUnit.equalsIgnoreCase("ml")
+                        || comparisonUnit.equalsIgnoreCase("m") || comparisonUnit.equalsIgnoreCase("cm")
+                        || comparisonUnit.equalsIgnoreCase("tonnes") || comparisonUnit.equalsIgnoreCase("sq km")
+                        || comparisonUnit.equalsIgnoreCase("mm"))
+                {
+                    question = " How much more " + comparisonUnit + " does " + data.getLabel(larger) + " have than " + data.getLabel(smaller) + "?";
+                }
+                else
+                {
+                    question = " How many more " + comparisonUnit + " does " + data.getLabel(larger) + " have than " + data.getLabel(smaller) + "?";
+                }
+
+                questionText = data.scenario.introduction + question;
 
                 correctAnswer =
                         formatAnswer(
@@ -1016,15 +1033,32 @@ public class TableQuestionGenerator {
                     larger = temp;
                 }
 
-                questionText =
-                        data.scenario.introduction
-                                + " How many fewer "
-                                + data.scenario.pluralItemName
-                                + " does "
-                                + data.getLabel(smaller)
-                                + " have than "
-                                + data.getLabel(larger)
-                                + "?";
+                String comparisonUnit = data.scenario.unit;
+                String question;
+
+                if (comparisonUnit == null || comparisonUnit.trim().isEmpty())
+                {
+                    question = " How many fewer " + data.scenario.pluralItemName + " does " + data.getLabel(smaller) + " have than " + data.getLabel(larger) + "?";
+                }
+                else if (comparisonUnit.equalsIgnoreCase("minutes") || comparisonUnit.equalsIgnoreCase("hours") || comparisonUnit.equalsIgnoreCase("days") || comparisonUnit.equalsIgnoreCase("years"))
+                {
+                    question = " How many " + comparisonUnit + " shorter is " + data.getLabel(smaller) + " than " + data.getLabel(larger) + "?";
+                }
+                else if (comparisonUnit.equalsIgnoreCase("GB") || comparisonUnit.equalsIgnoreCase("km")
+                        || comparisonUnit.equalsIgnoreCase("kg") || comparisonUnit.equalsIgnoreCase("rupees")
+                        || comparisonUnit.equalsIgnoreCase("litres") || comparisonUnit.equalsIgnoreCase("ml")
+                        || comparisonUnit.equalsIgnoreCase("m") || comparisonUnit.equalsIgnoreCase("cm")
+                        || comparisonUnit.equalsIgnoreCase("tonnes") || comparisonUnit.equalsIgnoreCase("sq km")
+                        || comparisonUnit.equalsIgnoreCase("mm"))
+                {
+                    question = " How much fewer " + comparisonUnit + " does " + data.getLabel(smaller) + " have than " + data.getLabel(larger) + "?";
+                }
+                else
+                {
+                    question = " How many fewer " + comparisonUnit + " does " + data.getLabel(smaller) + " have than " + data.getLabel(larger) + "?";
+                }
+
+                questionText = data.scenario.introduction + question;
 
                 correctAnswer =
                         formatAnswer(

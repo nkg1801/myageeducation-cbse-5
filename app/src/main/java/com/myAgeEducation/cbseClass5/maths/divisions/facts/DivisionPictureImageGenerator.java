@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeParser;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeParser;
 
 import java.util.Map;
 

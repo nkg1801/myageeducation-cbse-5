@@ -242,11 +242,11 @@ public class OptionUtils {
 
         question.setOption1(options.get(0));
         question.setOption2(options.get(1));
-        if(options.size() > 2) {
+        if(options.size() > 2 && (options.get(2) != null || !options.get(2).isEmpty())) {
             question.setOption3(options.get(2));
         }
 
-        if(options.size() > 3) {
+        if(options.size() > 3 && (options.get(3) != null || !options.get(3).isEmpty())) {
             question.setOption4(options.get(3));
         }
     }

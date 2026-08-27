@@ -1,5 +1,5 @@
 package com.myAgeEducation.cbseClass5.maths.fractions;
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 
 public class FractionData {
 

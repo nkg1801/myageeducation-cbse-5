@@ -1,6 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.mappingskills;
 
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 
@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class ZooMapQuestionGenerator {
     private static final Random RANDOM = new Random();
-    private static final int GRID_SIZE = 12;
+    private static final int GRID_SIZE = RANDOM.nextInt(5) + 8; // 8 to 12
 
     private static final ZooAnimal[] ALL_ANIMALS = {
             new ZooAnimal("lion", "lion"),
@@ -30,22 +30,33 @@ public class ZooMapQuestionGenerator {
             new ZooAnimal("parrot", "parrot"),
             new ZooAnimal("flamingo", "flamingo"),
             new ZooAnimal("toucan", "toucan"),
-            new ZooAnimal("hippo", "hippo")
+            new ZooAnimal("hippo", "hippo"),
+            new ZooAnimal("cat", "cat"),
+            new ZooAnimal("fish", "fish"),
+            new ZooAnimal("duck", "duck"),
+            new ZooAnimal("hen", "hen"),
+            new ZooAnimal("peacock", "peacock"),
+            new ZooAnimal("camel", "camel"),
+            new ZooAnimal("cat", "cat"),
+            new ZooAnimal("pigeon", "pigeon"),
+            new ZooAnimal("crow", "crow"),
     };
 
     private ZooMapQuestionGenerator() {}
 
     public static Question generateQuestion() {
-        List<ZooAnimal> selectedAnimals = pickRandomAnimals(8);
+        List<ZooAnimal> selectedAnimals = pickRandomAnimals(GRID_SIZE - 4);
         assignRandomPositions(selectedAnimals);
 
-        int questionType = RANDOM.nextInt(2);
+        int questionType = RANDOM.nextInt(3);
         Question question = new Question();
 
         if (questionType == 0) {
             generateLocateAnimalAtPositionQuestion(question, selectedAnimals);
-        } else {
+        } else if (questionType == 1) {
             generateFindPositionOfAnimalQuestion(question, selectedAnimals);
+        } else {
+            generateTrueFalsePositionQuestion(question, selectedAnimals);
         }
 
         question.setImage(createImageCode(selectedAnimals));
@@ -120,6 +131,33 @@ public class ZooMapQuestionGenerator {
         
         Collections.shuffle(options);
         OptionUtils.setQuestionOptions(question, options);
+    }
+
+    private static void generateTrueFalsePositionQuestion(Question question, List<ZooAnimal> animals) {
+        ZooAnimal target = animals.get(RANDOM.nextInt(animals.size()));
+        boolean isTrue = RANDOM.nextBoolean();
+
+        int x = target.getX();
+        int y = target.getY();
+
+        if (!isTrue) {
+            // Generate a false position
+            int oldX = x;
+            int oldY = y;
+            do {
+                if (RANDOM.nextBoolean()) {
+                    x = 1 + RANDOM.nextInt(GRID_SIZE);
+                } else {
+                    y = 1 + RANDOM.nextInt(GRID_SIZE);
+                }
+            } while (x == oldX && y == oldY);
+        }
+
+        question.setQuestion("The position of the " + target.getName() + " is (" + x + ", " + y + "). TRUE or FALSE?");
+        String answer = isTrue ? "TRUE" : "FALSE";
+        question.setAnswer(answer);
+
+        OptionUtils.setQuestionOptions(question, new String[]{"TRUE", "FALSE"});
     }
 
     private static String createImageCode(List<ZooAnimal> animals) {

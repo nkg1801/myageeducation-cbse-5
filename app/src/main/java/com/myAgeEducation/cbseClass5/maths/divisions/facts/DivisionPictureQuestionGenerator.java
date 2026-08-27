@@ -1,6 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.divisions.facts;
 
-import com.myAgeEducation.cbseClass5.maths.utils.ImageCodeType;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 import com.myAgeEducation.cbseClass5.maths.utils.OptionUtil;
 import com.myAgeEducation.cbseClass5.utils.ImageCodeBuilder;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;

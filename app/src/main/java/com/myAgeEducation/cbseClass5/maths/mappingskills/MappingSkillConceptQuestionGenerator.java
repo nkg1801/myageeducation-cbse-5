@@ -1,5 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.mappingskills;
 
+import com.myAgeEducation.cbseClass5.maths.utils.PersonNameUtil;
 import com.myAgeEducation.cbseClass5.utils.ConceptQuestion;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
@@ -66,25 +67,25 @@ public class MappingSkillConceptQuestionGenerator
 
                     // 5
                     new ConceptQuestion(
-                            "Manu is facing the rising Sun. That direction is ___________.",
+                            PersonNameUtil.getOneName() + " is facing the rising Sun. That direction is ___________.",
                             "East",
                             "West", "North", "South"),
 
                     // 6
                     new ConceptQuestion(
-                            "Manu is facing the rising Sun. His left hand is pointing in the _______ direction.",
+                             PersonNameUtil.getMaleName() + " is facing the rising Sun. His left hand is pointing in the _______ direction.",
                             "North",
                             "South", "East", "West"),
 
                     // 7
                     new ConceptQuestion(
-                            "Manu is facing the rising Sun. His right hand is pointing in the ____________ direction.",
+                            PersonNameUtil.getFemaleName() + " is facing the rising Sun. Her right hand is pointing in the ____________ direction.",
                             "South",
                             "North", "East", "West"),
 
                     // 8
                     new ConceptQuestion(
-                            "Manu is facing the rising Sun. His back is towards the _______.",
+                            PersonNameUtil.getMaleName() + " is facing the rising Sun. His back is towards the _______.",
                             "West",
                             "East", "North", "South"),
 

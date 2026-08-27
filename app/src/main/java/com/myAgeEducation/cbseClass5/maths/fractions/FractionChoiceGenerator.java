@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
 
-import com.myAgeEducation.cbsecommon.Question;
+import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,6 +19,28 @@ import java.util.Set;
 public class FractionChoiceGenerator {
 
     private static final Random RANDOM = new Random();
+
+    public static Bitmap generateBitmap(String imageCode)
+    {
+        FractionData[] fractions = parseImageCode(imageCode);
+        return generateCompositeBitmap(800,800,fractions);
+    }
+
+    public static Bitmap generateCompositeBitmap(int width, int height, FractionData[] fractions)    {
+        Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        int margin = 30;
+
+        int cellWidth = (width - margin * 3) / 2;
+        int cellHeight = (height - margin * 3) / 2;
+
+        drawChoice(canvas,fractions[0],margin,margin,cellWidth,cellHeight,"A");
+        drawChoice(canvas,fractions[1],margin * 2 + cellWidth,margin,cellWidth,cellHeight,"B");
+        drawChoice(canvas,fractions[2],margin,margin * 2 + cellHeight,cellWidth,cellHeight,"C");
+        drawChoice(canvas,fractions[3],margin * 2 + cellWidth,margin * 2 + cellHeight,cellWidth,cellHeight,"D");
+        return bitmap;
+    }
 
     public static ChoiceFractionData generate(int width, int height, FractionData correctFraction) {
         ChoiceFractionData data = new ChoiceFractionData();
@@ -49,31 +71,12 @@ public class FractionChoiceGenerator {
         //data.bitmap = createBitmap(width, height, fractions);
 
         data.answer = String.valueOf((char) ('A' + correctIndex));
-
         data.fractions = fractions;
-
         return data;
-    }
-
-    public static Bitmap generateCompositeBitmap(int width, int height, FractionData[] fractions)    {
-        Bitmap bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.WHITE);
-        int margin = 30;
-
-        int cellWidth = (width - margin * 3) / 2;
-        int cellHeight = (height - margin * 3) / 2;
-
-        drawChoice(canvas,fractions[0],margin,margin,cellWidth,cellHeight,"A");
-        drawChoice(canvas,fractions[1],margin * 2 + cellWidth,margin,cellWidth,cellHeight,"B");
-        drawChoice(canvas,fractions[2],margin,margin * 2 + cellHeight,cellWidth,cellHeight,"C");
-        drawChoice(canvas,fractions[3],margin * 2 + cellWidth,margin * 2 + cellHeight,cellWidth,cellHeight,"D");
-        return bitmap;
     }
 
     private static void drawChoice(Canvas canvas,FractionData fraction,int x,int y,int width,int height,String label)
     {
-
         Paint border = new Paint(Paint.ANTI_ALIAS_FLAG);
         border.setColor(Color.LTGRAY);
         border.setStyle(Paint.Style.STROKE);
@@ -107,7 +110,7 @@ public class FractionChoiceGenerator {
 
     public static String createImageCode(FractionData[] fractions, int correctIndex)
     {
-        StringBuilder sb = new StringBuilder("use_fraction_choice_generator_code;");
+        StringBuilder sb = new StringBuilder(ImageCodeType.FRACTION_CHOICE);
 
         for (FractionData f : fractions)
         {
@@ -234,10 +237,7 @@ public class FractionChoiceGenerator {
         // Pick one as the correct fraction
         FractionKey correctKey = pool.remove(0);
 
-        FractionData correctFraction =
-                FractionImageGenerator.createFraction(
-                        correctKey.numerator,
-                        correctKey.denominator);
+        FractionData correctFraction = FractionImageGenerator.createFraction(correctKey.numerator, correctKey.denominator);
 
         // Random position for the correct answer
         int correctIndex = RANDOM.nextInt(4);
@@ -437,26 +437,19 @@ public class FractionChoiceGenerator {
                 randomVariation());
     }
 
-    private Question generateOddOneOutFractionQuestion()
+    /*private Question generateOddOneOutFractionQuestion()
     {
-        ChoiceFractionData data =
-                FractionChoiceGenerator.generateOddOneOutQuestion();
-
+        ChoiceFractionData data = FractionChoiceGenerator.generateOddOneOutQuestion();
         Question question = new Question();
-
         question.setQuestion(data.questionText);
-
         question.setImage(data.imageCode);
-
         question.setOption1("A");
         question.setOption2("B");
         question.setOption3("C");
         question.setOption4("D");
-
         question.setAnswer(data.answer);
-
         return question;
-    }
+    }*/
 
     private static FractionData generateWrongFraction(FractionData correct)
     {
