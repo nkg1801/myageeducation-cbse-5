@@ -995,10 +995,20 @@ public class TableQuestionGenerator {
                 {
                     question = " How many " + comparisonUnit + " longer is " + data.getLabel(larger) + " than " + data.getLabel(smaller) + "?";
                 }
+                else if (comparisonUnit.equalsIgnoreCase("meters") || comparisonUnit.equalsIgnoreCase("m"))
+                {
+                    if (data.scenario.scenarioCode.contains("DEPTH") || data.scenario.valueDescription.contains("depth"))
+                    {
+                        question = " How many " + comparisonUnit + " deeper is " + data.getLabel(larger) + " than " + data.getLabel(smaller) + "?";
+                    }
+                    else
+                    {
+                        question = " How many " + comparisonUnit + " taller is " + data.getLabel(larger) + " than " + data.getLabel(smaller) + "?";
+                    }
+                }
                 else if (comparisonUnit.equalsIgnoreCase("GB") || comparisonUnit.equalsIgnoreCase("km")
                         || comparisonUnit.equalsIgnoreCase("kg") || comparisonUnit.equalsIgnoreCase("rupees")
                         || comparisonUnit.equalsIgnoreCase("litres") || comparisonUnit.equalsIgnoreCase("ml")
-                        || comparisonUnit.equalsIgnoreCase("m") || comparisonUnit.equalsIgnoreCase("cm")
                         || comparisonUnit.equalsIgnoreCase("tonnes") || comparisonUnit.equalsIgnoreCase("sq km")
                         || comparisonUnit.equalsIgnoreCase("mm"))
                 {
@@ -1044,10 +1054,20 @@ public class TableQuestionGenerator {
                 {
                     question = " How many " + comparisonUnit + " shorter is " + data.getLabel(smaller) + " than " + data.getLabel(larger) + "?";
                 }
+                else if (comparisonUnit.equalsIgnoreCase("meters") || comparisonUnit.equalsIgnoreCase("m"))
+                {
+                    if (data.scenario.scenarioCode.contains("DEPTH") || data.scenario.valueDescription.contains("depth"))
+                    {
+                        question = " How many " + comparisonUnit + " shallower is " + data.getLabel(smaller) + " than " + data.getLabel(larger) + "?";
+                    }
+                    else
+                    {
+                        question = " How many " + comparisonUnit + " shorter is " + data.getLabel(smaller) + " than " + data.getLabel(larger) + "?";
+                    }
+                }
                 else if (comparisonUnit.equalsIgnoreCase("GB") || comparisonUnit.equalsIgnoreCase("km")
                         || comparisonUnit.equalsIgnoreCase("kg") || comparisonUnit.equalsIgnoreCase("rupees")
                         || comparisonUnit.equalsIgnoreCase("litres") || comparisonUnit.equalsIgnoreCase("ml")
-                        || comparisonUnit.equalsIgnoreCase("m") || comparisonUnit.equalsIgnoreCase("cm")
                         || comparisonUnit.equalsIgnoreCase("tonnes") || comparisonUnit.equalsIgnoreCase("sq km")
                         || comparisonUnit.equalsIgnoreCase("mm"))
                 {
