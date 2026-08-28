@@ -19,7 +19,6 @@ public class ListViewAdapterForSkuList extends BaseAdapter
     ArrayList<String> _skuTitle;
     ArrayList<String> _skuPrice;
     ArrayList<String> _skuDetail;
-    private Context _context;
 
     public ListViewAdapterForSkuList(Activity context, ArrayList<String> skuTitle, ArrayList<String> skuPrice, ArrayList<String> skuDetail) {
         super();
@@ -27,25 +26,21 @@ public class ListViewAdapterForSkuList extends BaseAdapter
         this._skuTitle = skuTitle;
         this._skuPrice = skuPrice;
         this._skuDetail = skuDetail;
-        _context = context;
     }
 
     public int getCount() {
-        // TODO Auto-generated method stub
         return _skuTitle.size();
     }
 
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         TextView textViewSkuTitle;
         TextView textViewSkuPrice;
         TextView textViewSkuDetail;
@@ -60,9 +55,9 @@ public class ListViewAdapterForSkuList extends BaseAdapter
         {
             convertView = inflater.inflate(R.layout.listitem_in_app_purchase, null);
             holder = new ViewHolder();
-            holder.textViewSkuTitle = (TextView) convertView.findViewById(R.id.textViewSku);
-            holder.textViewSkuPrice = (TextView) convertView.findViewById(R.id.textViewSkuPrice);
-            holder.textViewSkuDetail = (TextView) convertView.findViewById(R.id.textViewSkuDetails);
+            holder.textViewSkuTitle = convertView.findViewById(R.id.textViewSku);
+            holder.textViewSkuPrice = convertView.findViewById(R.id.textViewSkuPrice);
+            holder.textViewSkuDetail = convertView.findViewById(R.id.textViewSkuDetails);
             convertView.setTag(holder);
         }
         else

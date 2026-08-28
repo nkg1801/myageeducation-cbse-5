@@ -55,6 +55,7 @@ import com.myAgeEducation.cbseClass5.maths.mappingskills.NeighborhoodMapImageGen
 import com.myAgeEducation.cbseClass5.maths.mappingskills.MetroMapImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.mappingskills.ZooMapImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.pattern.PatternSequenceImageGenerator;
+import com.myAgeEducation.cbseClass5.maths.perimeterarea.TileCoveringImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.pictograph.PictographImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableImageGenerator;
 import com.myAgeEducation.cbseClass5.utils.ImageCodeParser;
@@ -613,6 +614,9 @@ public class QuestionPage extends Activity
 
 			case ImageCodeType.ANGLE:
 				return AngleImageGenerator.generateImage(imageData);
+
+			case ImageCodeType.TILE_COVERING:
+				return TileCoveringImageGenerator.generate(imageData);
 
 			case ImageCodeType.DISTANCE_GRID_QUIZ:
 				return DirectionDistanceImageGenerator.generate(this, imageData);

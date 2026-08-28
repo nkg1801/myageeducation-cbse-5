@@ -605,7 +605,6 @@ public class SubjectList extends Activity
                 default:
                     question = FractionQuestionGenerator.generateQuestion();
             }
-            //question = FractionQuestionGenerator.generateQuestion(); //todo:
             question.setChapter(chapterNumber);
             question.setChapterName(chapterName);
             Util.allQuestions.add(question);
