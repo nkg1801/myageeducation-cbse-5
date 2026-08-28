@@ -1,5 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.perimeterarea;
 
+import com.myAgeEducation.cbseClass5.maths.utils.PersonNameUtil;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 
@@ -15,15 +16,27 @@ public class PerimeterAreaQuestionGenerator {
     private static final Random RANDOM = new Random();
 
     public static Question generateQuestion() {
-        int type = RANDOM.nextInt(5);
+        int type = RANDOM.nextInt(10);
         PerimeterAreaQuestionData data;
         switch (type) {
             case 1: data = generatePerimeterSquareQuestion(); break;
             case 2: data = generatePerimeterRectangleQuestion(); break;
             case 3: data = generateAreaComparisonQuestion(); break;
             case 4: data = generatePerimeterComparisonQuestion(); break;
+            case 5: data = generateTileCoveringQuestion(); break;
+            case 6: data = generateGridAreaComparisonQuestion(); break;
+            case 7: data = generateSameAreaComparisonQuestion(); break;
+            case 8: data = generateGridMultiShapeQuiz(); break;
+            case 9: data = generateAreaLogicComparisonQuestion(); break;
             default: data = generateConceptQuestion();
         }
+        /*if(RANDOM.nextBoolean())
+        {
+            data = generateGridMultiShapeQuiz();
+        }
+        else {
+            data = generateAreaLogicComparisonQuestion();
+        }*/
         return convertToQuestion(data);
     }
 
@@ -214,10 +227,469 @@ public class PerimeterAreaQuestionGenerator {
         return new PerimeterAreaQuestionData(q, options[targetIdx], options, PerimeterAreaQuestionType.PERIMETER_COMPARISON);
     }
 
+    private static PerimeterAreaQuestionData generateTileCoveringQuestion() {
+        int cols = 8 + RANDOM.nextInt(5); // 8-12
+        int rows = 6 + RANDOM.nextInt(3); // 6-8
+        int totalArea = cols * rows;
+
+        int redSize = 2 + RANDOM.nextInt(2); // 2x2 or 3x3
+        double redArea = 0.5 * redSize * redSize;
+        
+        // Data format: TYPE,COL,ROW,W,H,COLOR
+        String blueData = "0,2,2,1,1,#2196F3";
+        String redData = "1,4,2," + redSize + "," + redSize + ",#F44336";
+        String greenData = "3,4," + rows + ",1,1,#4CAF50";
+
+        String imageCode = "TILE-COVERING_COLS=" + cols + "_ROWS=" + rows + "_DATA=" + blueData + "|" + redData + "|" + greenData;
+
+        int questionSubtype = RANDOM.nextInt(3);
+        String question;
+        String answer;
+        double tileArea;
+        String shapeName;
+
+        switch (questionSubtype) {
+            case 0:
+                shapeName = "Green triangles";
+                tileArea = 0.5;
+                break;
+
+            case 1:
+                shapeName = "Red triangles";
+                tileArea = redArea;
+                break;
+
+            default:
+                shapeName = "Blue squares";
+                tileArea = 1.0;
+                break;
+        }
+
+        if(RANDOM.nextBoolean()) {
+            question = PersonNameUtil.getFemaleName() +
+            " is playing with tiles. She covers her desk with different shapes as shown below. " +
+                    "Look at the different tiles on her desk and answer how many of the following shapes will cover the desk: " + shapeName;
+        }
+        else {
+            question = PersonNameUtil.getMaleName() + " is playing with tiles. He covers her desk with different shapes as shown below. " +
+                    "Look at the different tiles on his desk and answer how many of the following shapes will cover the desk: " + shapeName;
+        }
+
+        int numTiles = (int) Math.round(totalArea / tileArea);
+        answer = String.valueOf(numTiles);
+
+        String[] options = new String[4];
+        options[0] = answer;
+        options[1] = String.valueOf(numTiles + 5);
+        options[2] = String.valueOf(numTiles / 2);
+        options[3] = String.valueOf(numTiles + 10);
+        
+        List<String> optionList = new ArrayList<>(Arrays.asList(options));
+        Collections.shuffle(optionList);
+        options = optionList.toArray(new String[0]);
+
+        PerimeterAreaQuestionData data = new PerimeterAreaQuestionData(question, answer, options, PerimeterAreaQuestionType.TILE_COVERING);
+        data.setImageData(imageCode);
+        return data;
+    }
+
+    private static PerimeterAreaQuestionData generateGridAreaComparisonQuestion() {
+        int cols = 12;
+        int rows = 6;
+
+        int wA, hA, areaA, wB, hB, areaB, wC, hC, areaC;
+
+        // Ensure all areas are distinct to avoid multiple correct answers
+        while (true) {
+            wA = 2 + RANDOM.nextInt(3); // 2-4
+            hA = 2 + RANDOM.nextInt(4); // 2-5
+            areaA = wA * hA;
+
+            wB = 2 + RANDOM.nextInt(3);
+            hB = 2 + RANDOM.nextInt(4);
+            areaB = wB * hB;
+
+            wC = 2 + RANDOM.nextInt(3);
+            hC = 2 + RANDOM.nextInt(4);
+            areaC = wC * hC;
+
+            if (areaA != areaB && areaA != areaC && areaB != areaC) {
+                break;
+            }
+        }
+
+        // Colors
+        String[] colors = {"#FFEB3B", "#F8BBD0", "#B39DDB", "#81C784", "#4FC3F7"};
+        List<String> colorList = new ArrayList<>(Arrays.asList(colors));
+        Collections.shuffle(colorList);
+
+        String dataA = "0,1,1," + wA + "," + hA + "," + colorList.get(0) + ",A";
+        String dataB = "0,5,1," + wB + "," + hB + "," + colorList.get(1) + ",B";
+        String dataC = "0,9,1," + wC + "," + hC + "," + colorList.get(2) + ",C";
+
+        String imageCode = "TILE-COVERING_COLS=" + cols + "_ROWS=" + rows + "_DATA=" + dataA + "|" + dataB + "|" + dataC;
+
+        boolean findMax = RANDOM.nextBoolean();
+        String question = findMax ? "Which of the rectangles shown below has the largest area?" : "Which of the rectangles shown below has the smallest area?";
+        
+        String answer;
+        if (findMax) {
+            if (areaA >= areaB && areaA >= areaC) answer = "Rectangle A";
+            else if (areaB >= areaA && areaB >= areaC) answer = "Rectangle B";
+            else answer = "Rectangle C";
+        } else {
+            if (areaA <= areaB && areaA <= areaC) answer = "Rectangle A";
+            else if (areaB <= areaA && areaB <= areaC) answer = "Rectangle B";
+            else answer = "Rectangle C";
+        }
+
+        String[] options = {"Rectangle A", "Rectangle B", "Rectangle C", "All have equal area"};
+        
+        PerimeterAreaQuestionData data = new PerimeterAreaQuestionData(question, answer, options, PerimeterAreaQuestionType.GRID_AREA_COMPARISON);
+        data.setImageData(imageCode);
+        return data;
+    }
+
+    private static PerimeterAreaQuestionData generateSameAreaComparisonQuestion() {
+        int cols = 14;
+        int rows = 9;
+
+        int wC, hC, wD, hD, wE, hE, wF, hF;
+        int areaC, areaD, areaE, areaF;
+
+        // Exactly two must have same area
+        while (true) {
+            wC = 2 + RANDOM.nextInt(3); hC = 3 + RANDOM.nextInt(3); areaC = wC * hC;
+            wD = 3 + RANDOM.nextInt(3); hD = 2 + RANDOM.nextInt(3); areaD = wD * hD;
+            wE = 4 + RANDOM.nextInt(3); hE = 1 + RANDOM.nextInt(2); areaE = wE * hE;
+            wF = 5 + RANDOM.nextInt(2); hF = 1; areaF = wF * hF;
+
+            int[] areas = {areaC, areaD, areaE, areaF};
+            Set<Integer> uniqueAreas = new HashSet<>();
+            int sameCount = 0;
+            for (int a : areas) {
+                if (!uniqueAreas.add(a)) sameCount++;
+            }
+
+            if (sameCount == 1) { // Exactly one pair matches
+                break;
+            }
+        }
+
+        String color = "#C5E1A5"; // Light green like the image
+        // Placed with more horizontal gap and ensuring they fit within boundaries
+        // cols=14, rows=9.
+        String dataC = "0,2,1," + wC + "," + hC + "," + color + ",(c)";
+        String dataD = "0,2,6," + wD + "," + hD + "," + color + ",(d)";
+        String dataE = "0,8,1," + wE + "," + hE + "," + color + ",(e)";
+        String dataF = "0,8,6," + wF + "," + hF + "," + color + ",(f)";
+
+        String imageCode = "TILE-COVERING_COLS=" + cols + "_ROWS=" + rows + "_DATA=" + dataC + "|" + dataD + "|" + dataE + "|" + dataF;
+
+        String pair = "";
+        if (areaC == areaD) pair = "(c) and (d)";
+        else if (areaC == areaE) pair = "(c) and (e)";
+        else if (areaC == areaF) pair = "(c) and (f)";
+        else if (areaD == areaE) pair = "(d) and (e)";
+        else if (areaD == areaF) pair = "(d) and (f)";
+        else if (areaE == areaF) pair = "(e) and (f)";
+
+        String question = "Which of the 2 shapes shown below have the same area?";
+        String answer = pair;
+        
+        // Generate options
+        List<String> options = new ArrayList<>();
+        options.add("(c) and (d)");
+        options.add("(c) and (e)");
+        options.add("(d) and (e)");
+        options.add("(e) and (f)");
+        options.add("(c) and (f)");
+        options.add("(d) and (f)");
+        
+        List<String> selectedOptions = new ArrayList<>();
+        selectedOptions.add(answer);
+        Collections.shuffle(options);
+        for(String opt : options) {
+            if(!selectedOptions.contains(opt)) selectedOptions.add(opt);
+            if(selectedOptions.size() == 4) break;
+        }
+        Collections.shuffle(selectedOptions);
+
+        PerimeterAreaQuestionData data = new PerimeterAreaQuestionData(question, answer, selectedOptions.toArray(new String[0]), PerimeterAreaQuestionType.SAME_AREA_COMPARISON);
+        data.setImageData(imageCode);
+        return data;
+    }
+
+    private static PerimeterAreaQuestionData generateGridMultiShapeQuiz() {
+        int cols = 20;
+        int rows = 12;
+
+        // Shape definitions (relative to its own top-left 1,1)
+        int[][][] templates = {
+            {{1,1}, {2,1}, {3,1}, {1,2}, {2,2}}, // 2x3 block minus one
+            {{1,1}, {2,1}, {2,2}, {3,2}, {2,3}}, // T-ish shape
+            {{1,1}, {1,2}, {1,3}, {1,4}, {2,4}, {3,4}}, // L shape
+            {{2,1}, {1,2}, {2,2}, {3,2}, {2,3}}, // Plus shape
+            {{1,1}, {2,1}, {3,1}, {4,1}, {5,1}, {6,1}}, // Long strip
+            {{1,1}, {2,1}, {1,2}, {1,3}, {2,3}}, // C shape
+            {{1,1}, {2,1}, {3,1}, {2,2}, {1,3}, {2,3}, {3,3}}, // I shape
+            {{1,1}, {2,1}, {1,2}, {2,2}, {2,3}, {3,3}}  // Z shape
+        };
+
+        String[] labels = {"(a)", "(b)", "(c)", "(d)", "(e)"};
+        int numShapes = 5;
+        
+        List<GridShape> shapes = new ArrayList<>();
+        boolean[][] occupied = new boolean[cols + 2][rows + 2]; // Extra padding
+
+        for (int i = 0; i < numShapes; i++) {
+            int templateIdx = RANDOM.nextInt(templates.length);
+            int[][] template = templates[templateIdx];
+            
+            int attempts = 0;
+            while (attempts < 100) {
+                int startCol = 1 + RANDOM.nextInt(cols - 6);
+                int startRow = 1 + RANDOM.nextInt(rows - 6);
+                
+                boolean canPlace = true;
+                for (int[] cell : template) {
+                    int c = startCol + cell[0] - 1;
+                    int r = startRow + cell[1] - 1;
+                    // Check self and surroundings for 1-cell gap
+                    if (c > cols || r > rows || occupied[c][r] || 
+                        occupied[c+1][r] || occupied[c-1][r] || 
+                        occupied[c][r+1] || occupied[c][r-1]) {
+                        canPlace = false;
+                        break;
+                    }
+                }
+                
+                if (canPlace) {
+                    GridShape s = new GridShape();
+                    s.label = labels[i];
+                    s.cells = new ArrayList<>();
+                    for (int[] cell : template) {
+                        int c = startCol + cell[0] - 1;
+                        int r = startRow + cell[1] - 1;
+                        s.cells.add(new int[]{c, r});
+                        occupied[c][r] = true;
+                    }
+                    s.calculateProperties();
+                    shapes.add(s);
+                    break;
+                }
+                attempts++;
+            }
+        }
+
+        int qType = RANDOM.nextInt(7);
+        String question = "";
+        String answer = "";
+        List<String> options = new ArrayList<>();
+
+        switch (qType) {
+            case 0: // Area of specific shape
+            {
+                GridShape s = shapes.get(RANDOM.nextInt(shapes.size()));
+                question = "Considering each square is of size 1 cm in width and height, what is the area of shape " + s.label + "?";
+                answer = s.area + " sq cm";
+                options.add((s.area + 1) + " sq cm");
+                options.add((s.area - 1) + " sq cm");
+                options.add((s.area + 2) + " sq cm");
+                break;
+            }
+            case 1: // Perimeter of specific shape
+            {
+                GridShape s = shapes.get(RANDOM.nextInt(shapes.size()));
+                question = "Considering each square is of size 1 cm in width and height, what is the perimeter of shape " + s.label + "?";
+                answer = s.perimeter + " cm";
+                options.add((s.perimeter + 2) + " cm");
+                options.add((s.perimeter - 2) + " cm");
+                options.add((s.perimeter + 4) + " cm");
+                break;
+            }
+            case 2: // Same area
+            {
+                GridShape s1 = null, s2 = null;
+                for (int i = 0; i < shapes.size(); i++) {
+                    for (int j = i + 1; j < shapes.size(); j++) {
+                        if (shapes.get(i).area == shapes.get(j).area) {
+                            s1 = shapes.get(i); s2 = shapes.get(j); break;
+                        }
+                    }
+                }
+                if (s1 != null) {
+                    question = "Which 2 shapes have the same area?";
+                    answer = s1.label + " and " + s2.label;
+                    options.add(shapes.get(0).label + " and " + shapes.get(1).label);
+                    options.add(shapes.get(1).label + " and " + shapes.get(2).label);
+                    options.add(shapes.get(2).label + " and " + shapes.get(3).label);
+                } else {
+                    return generateGridMultiShapeQuiz();
+                }
+                break;
+            }
+            case 3: // Same perimeter
+            {
+                GridShape s1 = null, s2 = null;
+                for (int i = 0; i < shapes.size(); i++) {
+                    for (int j = i + 1; j < shapes.size(); j++) {
+                        if (shapes.get(i).perimeter == shapes.get(j).perimeter) {
+                            s1 = shapes.get(i); s2 = shapes.get(j); break;
+                        }
+                    }
+                }
+                if (s1 != null) {
+                    question = "Which 2 shapes have the same perimeter?";
+                    answer = s1.label + " and " + s2.label;
+                    options.add(shapes.get(0).label + " and " + shapes.get(1).label);
+                    options.add(shapes.get(1).label + " and " + shapes.get(2).label);
+                    options.add(shapes.get(2).label + " and " + shapes.get(3).label);
+                } else {
+                    return generateGridMultiShapeQuiz();
+                }
+                break;
+            }
+            case 4: // Sum of 2 areas
+            {
+                int i1 = RANDOM.nextInt(shapes.size());
+                int i2 = RANDOM.nextInt(shapes.size());
+                while (i1 == i2) i2 = RANDOM.nextInt(shapes.size());
+                GridShape s1 = shapes.get(i1);
+                GridShape s2 = shapes.get(i2);
+                question = "What is the sum of areas of shape " + s1.label + " and " + s2.label + "?";
+                int sum = s1.area + s2.area;
+                answer = sum + " sq cm";
+                options.add((sum + 2) + " sq cm");
+                options.add((sum - 1) + " sq cm");
+                options.add((sum + 5) + " sq cm");
+                break;
+            }
+            case 5: // Sum of 3 areas
+            {
+                question = "What is the sum of areas of shape " + shapes.get(0).label + ", " + shapes.get(1).label + " and " + shapes.get(2).label + "?";
+                int sum = shapes.get(0).area + shapes.get(1).area + shapes.get(2).area;
+                answer = sum + " sq cm";
+                options.add((sum + 3) + " sq cm");
+                options.add((sum - 2) + " sq cm");
+                options.add((sum + 10) + " sq cm");
+                break;
+            }
+            default: // Sum of 2 perimeters
+            {
+                int i1 = RANDOM.nextInt(shapes.size());
+                int i2 = RANDOM.nextInt(shapes.size());
+                while (i1 == i2) i2 = RANDOM.nextInt(shapes.size());
+                GridShape s1 = shapes.get(i1);
+                GridShape s2 = shapes.get(i2);
+                question = "What is the sum of perimeters of shape " + s1.label + " and " + s2.label + "?";
+                int sum = s1.perimeter + s2.perimeter;
+                answer = sum + " cm";
+                options.add((sum + 4) + " cm");
+                options.add((sum - 2) + " cm");
+                options.add((sum + 10) + " cm");
+                break;
+            }
+        }
+
+        StringBuilder imgCode = new StringBuilder("TILE-COVERING_COLS=" + cols + "_ROWS=" + rows + "_DATA=");
+        for (int i = 0; i < shapes.size(); i++) {
+            GridShape s = shapes.get(i);
+            imgCode.append("5,#EC407A,").append(s.label); // Pinkish color like image
+            for (int[] cell : s.cells) {
+                imgCode.append(",").append(cell[0]).append(",").append(cell[1]);
+            }
+            if (i < shapes.size() - 1) imgCode.append("|");
+        }
+
+        List<String> optList = new ArrayList<>();
+        optList.add(answer);
+        for (String o : options) {
+            if (!optList.contains(o)) optList.add(o);
+            if (optList.size() == 4) break;
+        }
+        while(optList.size() < 4) optList.add(RANDOM.nextInt(50) + " sq cm");
+        Collections.shuffle(optList);
+
+        PerimeterAreaQuestionData data = new PerimeterAreaQuestionData(question, answer, optList.toArray(new String[0]), PerimeterAreaQuestionType.GRID_MULTI_SHAPE_QUIZ);
+        data.setImageData(imgCode.toString());
+        return data;
+    }
+
+    private static PerimeterAreaQuestionData generateAreaLogicComparisonQuestion() {
+        int cols = 14;
+        int rows = 7;
+
+        // Shape (a) - Square/Rectangle
+        int wA = 3 + RANDOM.nextInt(2); // 3-4
+        int hA = 3 + RANDOM.nextInt(2); // 3-4
+        double areaA = wA * hA;
+
+        // Shape (b) - Triangle with base and height
+        // Base at top, point at bottom center
+        int wB = 4 + RANDOM.nextInt(3); // 4-6
+        int hB = 4 + RANDOM.nextInt(3); // 4-6
+        double areaB = 0.5 * wB * hB;
+
+        String colorA = "#448AFF"; // Blue
+        String colorB = "#FFCC80"; // Light Orange
+
+        String dataA = "0,2,2," + wA + "," + hA + "," + colorA + ",(a)";
+        String dataB = "6,8,2," + wB + "," + hB + "," + colorB + ",(b)";
+
+        String imageCode = "TILE-COVERING_COLS=" + cols + "_ROWS=" + rows + "_DATA=" + dataA + "|" + dataB;
+
+        boolean askLess = RANDOM.nextBoolean();
+        String question = askLess ? 
+            "Is the area of shape (a) less than the area of shape (b) given below?" :
+            "Is the area of shape (a) more than the area of shape (b) given below?";
+        
+        String answer;
+        if (askLess) {
+            answer = (areaA < areaB) ? "YES" : "NO";
+        } else {
+            answer = (areaA > areaB) ? "YES" : "NO";
+        }
+
+        String[] options = {"YES", "NO", "CANNOT BE DETERMINED", "BOTH HAVE EQUAL AREA"};
+        
+        PerimeterAreaQuestionData data = new PerimeterAreaQuestionData(question, answer, options, PerimeterAreaQuestionType.AREA_LOGIC_COMPARISON);
+        data.setImageData(imageCode);
+        return data;
+    }
+
+    private static class GridShape {
+        String label;
+        List<int[]> cells;
+        int area;
+        int perimeter;
+
+        void calculateProperties() {
+            area = cells.size();
+            perimeter = 0;
+            for (int[] cell : cells) {
+                int c = cell[0];
+                int r = cell[1];
+                if (!hasCell(c + 1, r)) perimeter++;
+                if (!hasCell(c - 1, r)) perimeter++;
+                if (!hasCell(c, r + 1)) perimeter++;
+                if (!hasCell(c, r - 1)) perimeter++;
+            }
+        }
+
+        boolean hasCell(int c, int r) {
+            for (int[] cell : cells) {
+                if (cell[0] == c && cell[1] == r) return true;
+            }
+            return false;
+        }
+    }
+
     private static Question convertToQuestion(PerimeterAreaQuestionData data) {
         Question question = new Question();
         question.setQuestion(data.getQuestion());
         question.setAnswer(data.getAnswer());
+        question.setImage(data.getImageData());
         OptionUtils.setQuestionOptions(question, data.getOptions());
         return question;
     }

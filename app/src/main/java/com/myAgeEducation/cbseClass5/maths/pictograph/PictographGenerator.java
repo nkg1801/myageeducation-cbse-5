@@ -340,6 +340,23 @@ public class PictographGenerator
                             "Which two days had the same number of visitors?",
                             "How many visitors came during the week?",
                             "FILLED_PERSON,STICK_PERSON,PNG_PERSON"
+                    ),
+
+                    //20
+                    new PictographScenario(
+                            "TWOWHEELERS",
+                            "Deepti noted down the number of two-wheelers passing her house in one hour on three different days.",
+                            "Monday,Wednesday,Friday",
+                            "two-wheeler",
+                            "two-wheelers",
+                            "On which day did the most number of two-wheelers pass her house?",
+                            "On which day did the fewest number of two-wheelers pass her house?",
+                            "How many two-wheelers passed her house on %s?",
+                            "How many more two-wheelers passed her house on %s than on %s?",
+                            "How many two-wheelers passed her house on %s and %s altogether?",
+                            "On which two days did the same number of two-wheelers pass her house?",
+                            "Find the total number of two-wheelers that passed her house during the three days.",
+                            "PNG_VEHICLE,STAR,PNG_VEHICLE,DIAMOND,PNG_VEHICLE,TRIANGLE"
                     )
             };
 

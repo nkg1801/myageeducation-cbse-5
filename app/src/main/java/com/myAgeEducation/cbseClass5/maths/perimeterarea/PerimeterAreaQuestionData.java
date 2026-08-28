@@ -5,6 +5,7 @@ public class PerimeterAreaQuestionData {
     private String answer;
     private String[] options;
     private PerimeterAreaQuestionType type;
+    private String imageData;
 
     public PerimeterAreaQuestionData(String question, String answer, String[] options, PerimeterAreaQuestionType type) {
         this.question = question;
@@ -17,4 +18,6 @@ public class PerimeterAreaQuestionData {
     public String getAnswer() { return answer; }
     public String[] getOptions() { return options; }
     public PerimeterAreaQuestionType getType() { return type; }
+    public String getImageData() { return imageData; }
+    public void setImageData(String imageData) { this.imageData = imageData; }
 }

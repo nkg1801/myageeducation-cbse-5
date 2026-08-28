@@ -989,7 +989,15 @@ public class TableQuestionGenerator {
 
                 if (comparisonUnit == null || comparisonUnit.trim().isEmpty())
                 {
-                    question = " How many more " + data.scenario.pluralItemName + " does " + data.getLabel(larger) + " have than " + data.getLabel(smaller) + "?";
+                    if (data.scenario.scenarioCode.contains("POPULATION") || data.scenario.valueDescription.contains("population"))
+                    {
+                        String popItem = data.scenario.pluralItemName.equalsIgnoreCase("towns") || data.scenario.pluralItemName.equalsIgnoreCase("cities") ? "people" : data.scenario.pluralItemName;
+                        question = " How many more " + popItem + " does " + data.getLabel(larger) + " have than " + data.getLabel(smaller) + "?";
+                    }
+                    else
+                    {
+                        question = " How many more " + data.scenario.pluralItemName + " does " + data.getLabel(larger) + " have than " + data.getLabel(smaller) + "?";
+                    }
                 }
                 else if (comparisonUnit.equalsIgnoreCase("minutes") || comparisonUnit.equalsIgnoreCase("hours") || comparisonUnit.equalsIgnoreCase("days") || comparisonUnit.equalsIgnoreCase("years"))
                 {
@@ -1005,6 +1013,10 @@ public class TableQuestionGenerator {
                     {
                         question = " How many " + comparisonUnit + " taller is " + data.getLabel(larger) + " than " + data.getLabel(smaller) + "?";
                     }
+                }
+                else if (comparisonUnit.equalsIgnoreCase("km") && (data.scenario.scenarioCode.contains("DIAMETER") || data.scenario.valueDescription.contains("diameter")))
+                {
+                    question = " How many " + comparisonUnit + " larger in diameter is " + data.getLabel(larger) + " than " + data.getLabel(smaller) + "?";
                 }
                 else if (comparisonUnit.equalsIgnoreCase("GB") || comparisonUnit.equalsIgnoreCase("km")
                         || comparisonUnit.equalsIgnoreCase("kg") || comparisonUnit.equalsIgnoreCase("rupees")
@@ -1048,7 +1060,15 @@ public class TableQuestionGenerator {
 
                 if (comparisonUnit == null || comparisonUnit.trim().isEmpty())
                 {
-                    question = " How many fewer " + data.scenario.pluralItemName + " does " + data.getLabel(smaller) + " have than " + data.getLabel(larger) + "?";
+                    if (data.scenario.scenarioCode.contains("POPULATION") || data.scenario.valueDescription.contains("population"))
+                    {
+                        String popItem = data.scenario.pluralItemName.equalsIgnoreCase("towns") || data.scenario.pluralItemName.equalsIgnoreCase("cities") ? "people" : data.scenario.pluralItemName;
+                        question = " How many fewer " + popItem + " does " + data.getLabel(smaller) + " have than " + data.getLabel(larger) + "?";
+                    }
+                    else
+                    {
+                        question = " How many fewer " + data.scenario.pluralItemName + " does " + data.getLabel(smaller) + " have than " + data.getLabel(larger) + "?";
+                    }
                 }
                 else if (comparisonUnit.equalsIgnoreCase("minutes") || comparisonUnit.equalsIgnoreCase("hours") || comparisonUnit.equalsIgnoreCase("days") || comparisonUnit.equalsIgnoreCase("years"))
                 {
@@ -1064,6 +1084,10 @@ public class TableQuestionGenerator {
                     {
                         question = " How many " + comparisonUnit + " shorter is " + data.getLabel(smaller) + " than " + data.getLabel(larger) + "?";
                     }
+                }
+                else if (comparisonUnit.equalsIgnoreCase("km") && (data.scenario.scenarioCode.contains("DIAMETER") || data.scenario.valueDescription.contains("diameter")))
+                {
+                    question = " How many " + comparisonUnit + " smaller in diameter is " + data.getLabel(smaller) + " than " + data.getLabel(larger) + "?";
                 }
                 else if (comparisonUnit.equalsIgnoreCase("GB") || comparisonUnit.equalsIgnoreCase("km")
                         || comparisonUnit.equalsIgnoreCase("kg") || comparisonUnit.equalsIgnoreCase("rupees")

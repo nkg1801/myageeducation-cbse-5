@@ -3498,10 +3498,10 @@ public class BarChartDataGenerator
                             "Which type of pen was sold the second most?",
                             "Which type of pen was sold the second least?",
 
-                            "How many %s pens were sold?",
-                            "How many more %s pens were sold than %s pens?",
-                            "How many fewer %s pens were sold than %s pens?",
-                            "How many %s and %s pens were sold altogether?",
+                            "How many %s were sold?",
+                            "How many more %s were sold than %s?",
+                            "How many fewer %s were sold than %s?",
+                            "How many %s and %s were sold altogether?",
                             "How many pens were sold in all?"
                     ),
 
@@ -3536,10 +3536,10 @@ public class BarChartDataGenerator
                             "Which type of notebook was sold the second most?",
                             "Which type of notebook was sold the second least?",
 
-                            "How many %s notebooks were sold?",
-                            "How many more %s notebooks were sold than %s notebooks?",
-                            "How many fewer %s notebooks were sold than %s notebooks?",
-                            "How many %s and %s notebooks were sold altogether?",
+                            "How many %s were sold?",
+                            "How many more %s were sold than %s?",
+                            "How many fewer %s were sold than %s?",
+                            "How many %s and %s were sold altogether?",
                             "How many notebooks were sold in all?"
                     ),
 
@@ -3574,10 +3574,10 @@ public class BarChartDataGenerator
                             "Which type of card was sold the second most?",
                             "Which type of card was sold the second least?",
 
-                            "How many %s cards were sold?",
-                            "How many more %s cards were sold than %s cards?",
-                            "How many fewer %s cards were sold than %s cards?",
-                            "How many %s and %s cards were sold altogether?",
+                            "How many %s were sold?",
+                            "How many more %s were sold than %s?",
+                            "How many fewer %s were sold than %s?",
+                            "How many %s and %s were sold altogether?",
                             "How many cards were sold in all?"
                     ),
 
@@ -3742,10 +3742,10 @@ public class BarChartDataGenerator
 
                             new String[]
                                     {
-                                            "Book Shop",
-                                            "Toy Shop",
+                                            "Book",
+                                            "Toy",
                                             "Bakery",
-                                            "Fruit Shop"
+                                            "Fruit"
                                     },
 
                             new String[]
@@ -3802,10 +3802,10 @@ public class BarChartDataGenerator
                             "Which type of bag was used the second most?",
                             "Which type of bag was used the second least?",
 
-                            "How many %s bags were used?",
-                            "How many more %s bags were used than %s bags?",
-                            "How many fewer %s bags were used than %s bags?",
-                            "How many %s and %s bags were used altogether?",
+                            "How many %s were used?",
+                            "How many more %s were used than %s?",
+                            "How many fewer %s were used than %s?",
+                            "How many %s and %s were used altogether?",
                             "How many shopping bags were used in all?"
                     ),
 
@@ -5242,10 +5242,10 @@ public class BarChartDataGenerator
                             "Which type of chocolate was sold the second most?",
                             "Which type of chocolate was sold the second least?",
 
-                            "How many %s chocolates were sold?",
-                            "How many more %s chocolates were sold than %s chocolates?",
-                            "How many fewer %s chocolates were sold than %s chocolates?",
-                            "How many %s and %s chocolates were sold altogether?",
+                            "How many %s were sold?",
+                            "How many more %s were sold than %s?",
+                            "How many fewer %s were sold than %s?",
+                            "How many %s and %s were sold altogether?",
                             "How many chocolates were sold in all?"
                     ),
 
@@ -5280,10 +5280,10 @@ public class BarChartDataGenerator
                             "Which type of grocery bag was sold the second most?",
                             "Which type of grocery bag was sold the second least?",
 
-                            "How many %s bags were sold?",
-                            "How many more %s bags were sold than %s bags?",
-                            "How many fewer %s bags were sold than %s bags?",
-                            "How many %s and %s bags were sold altogether?",
+                            "How many %s were sold?",
+                            "How many more %s were sold than %s?",
+                            "How many fewer %s were sold than %s?",
+                            "How many %s and %s were sold altogether?",
                             "How many grocery bags were sold in all?"
                     ),
 
@@ -5318,10 +5318,10 @@ public class BarChartDataGenerator
                             "Which type of book was sold the second most?",
                             "Which type of book was sold the second least?",
 
-                            "How many %s books were sold?",
-                            "How many more %s books were sold than %s books?",
-                            "How many fewer %s books were sold than %s books?",
-                            "How many %s and %s books were sold altogether?",
+                            "How many %s were sold?",
+                            "How many more %s were sold than %s?",
+                            "How many fewer %s were sold than %s?",
+                            "How many %s and %s were sold altogether?",
                             "How many books were sold in all?"
                     ),
 

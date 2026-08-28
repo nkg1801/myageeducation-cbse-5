@@ -16,6 +16,10 @@ public class MultipleQuestionTemplatesUtil {
                 return templatesForPropertyMultipleOfOne;
             case COMMON_MULTIPLE:
                 return templatesForCommonMultiple;
+            case FIRST_FIVE_COMMON_MULTIPLES:
+                return templatesForFirstFiveCommonMultiples;
+            case COMMON_MULTIPLE_WORD_PROBLEM:
+                return templatesForCommonMultipleWordProblem;
             default:
                 return new String[]{};
         }
@@ -56,5 +60,19 @@ public class MultipleQuestionTemplatesUtil {
             "Pick a common multiple of %d and %d.",
             "Find a number that is a multiple of both %d and %d.",
             "Select the common multiple of %d and %d from the options below."
+    };
+
+    private static final String[] templatesForFirstFiveCommonMultiples = {
+            "Find the first five common multiples of %d and %d.",
+            "What are the first five common multiples of %d and %d?",
+            "Identify the first five common multiples of the following pair of numbers: %d and %d.",
+            "List the first five common multiples of %d and %d."
+    };
+
+    private static final String[] templatesForCommonMultipleWordProblem = {
+            "%s, the %s, goes hunting every %dth day. %s, the %s, goes hunting every %dth day. If both of them start on the same day, on which days will they be hunting together?",
+            "Two bells toll at intervals of %d and %d minutes respectively. If they toll together at 10:00 AM, at what time will they toll together again?",
+            "Three traffic lights change after every %d, %d and %d seconds respectively. If they all change together at 8:00 AM, when will they change together again?",
+            "Two friends, %s and %s, go for a run around a track. %s takes %d minutes to complete a lap, while %s takes %d minutes. If they start together, after how many minutes will they meet at the starting point again?"
     };
 }

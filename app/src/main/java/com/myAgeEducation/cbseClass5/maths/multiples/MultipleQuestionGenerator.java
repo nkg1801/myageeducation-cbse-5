@@ -19,8 +19,6 @@ public class MultipleQuestionGenerator {
 
     public static MultipleQuestionData generateQuestion(MultipleQuestionType type) {
         switch (type) {
-            case MULTIPLE_TRUE_FALSE:
-                return generateMultipleTrueFalse();
             case LIST_MULTIPLE_TRUE_FALSE:
                 return generateListMultipleTrueFalse();
             case PROPERTY_ONE_MULTIPLE:
@@ -31,7 +29,11 @@ public class MultipleQuestionGenerator {
                 return generatePropertyQuestion(MultipleQuestionType.PROPERTY_MULTIPLE_OF_ONE);
             case COMMON_MULTIPLE:
                 return generateCommonMultiple();
-            default:
+            case FIRST_FIVE_COMMON_MULTIPLES:
+                return generateFirstFiveCommonMultiples();
+            case COMMON_MULTIPLE_WORD_PROBLEM:
+                return generateCommonMultipleWordProblem();
+            default: //for MULTIPLE_TRUE_FALSE
                 return generateMultipleTrueFalse();
         }
     }
@@ -117,6 +119,113 @@ public class MultipleQuestionGenerator {
         String question = String.format(templates[RANDOM.nextInt(templates.length)], n1, n2);
         
         return new MultipleQuestionData(n1, n2, 0, question, answer, options, MultipleQuestionType.COMMON_MULTIPLE);
+    }
+
+    private static MultipleQuestionData generateFirstFiveCommonMultiples() {
+        // Pairs from user request
+        int[][] pairs = {
+            {2, 3}, {5, 8}, {2, 4}, {3, 9}, {5, 10}, 
+            {9, 12}, {8, 12}, {6, 8}, {6, 9}
+        };
+        
+        int[] pair = pairs[RANDOM.nextInt(pairs.length)];
+        int n1 = pair[0];
+        int n2 = pair[1];
+        
+        int lcm = MultipleOptionUtils.getLCM(n1, n2);
+        StringBuilder answerBuilder = new StringBuilder();
+        for (int i = 1; i <= 5; i++) {
+            answerBuilder.append(lcm * i);
+            if (i < 5) answerBuilder.append(", ");
+        }
+        String answer = answerBuilder.toString();
+        
+        String[] options = MultipleOptionUtils.generateFirstFiveCommonMultipleOptions(n1, n2);
+        
+        String[] templates = MultipleQuestionTemplatesUtil.getQuestionTemplates(MultipleQuestionType.FIRST_FIVE_COMMON_MULTIPLES);
+        String question = String.format(templates[RANDOM.nextInt(templates.length)], n1, n2);
+        
+        return new MultipleQuestionData(n1, n2, 0, question, answer, options, MultipleQuestionType.FIRST_FIVE_COMMON_MULTIPLES);
+    }
+
+    private static MultipleQuestionData generateCommonMultipleWordProblem() {
+        String[] templates = MultipleQuestionTemplatesUtil.getQuestionTemplates(MultipleQuestionType.COMMON_MULTIPLE_WORD_PROBLEM);
+        int templateIndex = RANDOM.nextInt(templates.length);
+        String question = "";
+        String answer = "";
+        int lcm = 0;
+        String unit = "";
+
+        if (templateIndex == 0) {
+            // Animal pairs to ensure logical mapping
+            String[][] characters = {
+                {"Sher Khan", "tiger"},
+                {"Bagheera", "panther"},
+                {"Simba", "lion"},
+                {"Baloo", "bear"},
+                {"Mufasa", "lion"},
+                {"Akela", "wolf"}
+            };
+
+            int i1 = RANDOM.nextInt(characters.length);
+            int i2 = RANDOM.nextInt(characters.length);
+            while (i1 == i2) i2 = RANDOM.nextInt(characters.length);
+
+            String name1 = characters[i1][0];
+            String animal1 = characters[i1][1];
+            String name2 = characters[i2][0];
+            String animal2 = characters[i2][1];
+
+            int n1 = 2 + RANDOM.nextInt(4); // 2-5
+            int n2 = 3 + RANDOM.nextInt(4); // 3-6
+            while (n1 == n2) n2 = 3 + RANDOM.nextInt(4);
+            lcm = MultipleOptionUtils.getLCM(n1, n2);
+            
+            question = String.format(templates[0], name1, animal1, n1, name2, animal2, n2);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i <= 3; i++) {
+                sb.append(lcm * i);
+                if (i < 3) sb.append(", ");
+            }
+            answer = sb.toString() + " days";
+            unit = "days";
+        } else if (templateIndex == 1) {
+            // Bells
+            int n1 = 10 + RANDOM.nextInt(20);
+            int n2 = 15 + RANDOM.nextInt(20);
+            lcm = MultipleOptionUtils.getLCM(n1, n2);
+            question = String.format(templates[1], n1, n2);
+            
+            int hours = lcm / 60;
+            int mins = lcm % 60;
+            int newHour = (10 + hours) % 12;
+            if (newHour == 0) newHour = 12;
+            answer = String.format("%02d:%02d AM", newHour, mins);
+        } else if (templateIndex == 2) {
+            // Traffic lights
+            int n1 = 10 + RANDOM.nextInt(10);
+            int n2 = 15 + RANDOM.nextInt(10);
+            int n3 = 20 + RANDOM.nextInt(10);
+            lcm = MultipleOptionUtils.getLCM(n1, MultipleOptionUtils.getLCM(n2, n3));
+            question = String.format(templates[2], n1, n2, n3);
+            
+            int mins = lcm / 60;
+            int secs = lcm % 60;
+            answer = String.format("8:%02d:%02d AM", mins, secs);
+        } else {
+            // Friends running
+            String[] names = {"Amit", "Rahul", "Sneha", "Priya"};
+            int n1 = 5 + RANDOM.nextInt(10);
+            int n2 = 5 + RANDOM.nextInt(10);
+            while (n1 == n2) n2 = 5 + RANDOM.nextInt(10);
+            lcm = MultipleOptionUtils.getLCM(n1, n2);
+            question = String.format(templates[3], names[0], names[1], names[0], n1, names[1], n2);
+            answer = lcm + " minutes";
+            unit = "minutes";
+        }
+
+        String[] options = MultipleOptionUtils.generateWordProblemOptions(answer, lcm, unit);
+        return new MultipleQuestionData(0, 0, 0, question, answer, options, MultipleQuestionType.COMMON_MULTIPLE_WORD_PROBLEM);
     }
 
     private static Question convertToQuestion(MultipleQuestionData data) {

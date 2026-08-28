@@ -13,8 +13,6 @@ public class DivisionFactDataGenerator
     {
         DivisionFactType type = DivisionFactType.values()[RANDOM.nextInt(DivisionFactType.values().length)];
 
-        //type = DivisionFactType.PAIRS; //todo: only for testing
-
         switch (type)
         {
             case BASIC_DIVISION:

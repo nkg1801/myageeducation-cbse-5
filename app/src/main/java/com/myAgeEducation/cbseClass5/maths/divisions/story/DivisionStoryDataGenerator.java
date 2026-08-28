@@ -75,7 +75,6 @@ public class DivisionStoryDataGenerator {
 
     private static DivisionStoryQuestionData generateDifferenceSharing()
     {
-        // TODO:
         // This question type requires a different algorithm
         // because the answer consists of two values.
 

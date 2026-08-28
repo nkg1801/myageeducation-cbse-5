@@ -124,7 +124,6 @@ public class FractionImageGenerator {
     {
         int[] denominators = {2,3,4,5,6,8};
         int denominator = denominators[RANDOM.nextInt(denominators.length)];
-        //int denominator = denominators[1]; //todo: only for testing, to simulate a particular testing
 
         int numerator = RANDOM.nextInt(denominator - 1) + 1;
         FractionShape shape = randomShape(denominator);

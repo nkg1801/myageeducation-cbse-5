@@ -11,37 +11,39 @@ public class PersonNameUtil
 
     private static final String[] MALE_NAMES =
             {
-                    "Aarav", "Aayush", "Ajay", "Akash", "Amar", "Amit", "Amol", "Animesh", "Ankur", "Anthony", "Arjun", "Arnab",
-                    "Abhay",  "Aditya", "Aman", "Amar", "Amrit", "Ananth", "Anil", "Anirudh", "Ankit",
-                    "Arjun", "Arun", "Ashish", "Atul", "Ayan",
+                    "Aarav", "Aayush", "Abhay", "Aditya", "Ajay", "Akash", "Amar", "Amit", "Amol", "Animesh", "Ankur", "Anthony", "Arjun", "Arnab",
+                    "Aman", "Amrit", "Ananth", "Anil", "Anirudh", "Ankit",
+                    "Arun", "Ashish", "Atul", "Ayan",
                     "Benny", "Bijo", "Biman", "Binay",
-                    "Dev", "Deb", "Dheeraj", "Dinesh",
+                    "Dev", "Deb", "Deepti", "Dheeraj", "Dinesh",
                     "Ganesh", "Gaurav", "Gautam", "Giridhar", "Girish", "Gopal", "Gyanesh",
                     "Hari", "Harish", "Hitesh", "Hrithik",
-                    "James", "Johny", "Jitender", "Jitin",
                     "Ishana", "Iswar",
-                    "Kabir", "Kamal", "Kapil", "Karan", "Kartik", "Kiran", "Kishan", "Kripa", "Krishna",
-                    "Madhav", "Manish", "Manjunath", "Manoj", "Manu", "Mohan", "Mohit",
-                    "Nagaraj", "Nand", "Nataraj", "Nilay", "Nitin",
+                    "James", "Jitendra", "Jitender", "Jitin", "Johny", "Joseph",
+                    "Kabir", "Kamal", "Kapil", "Karan", "Kartik", "Kavita", "Kavitha", "Kiran", "Kishan", "Kripa", "Krishna", "Kunal",
+                    "Madhav", "Magesh", "Mahesh", "Manish", "Manjunath", "Manoj", "Manu", "Mohan", "Mohit", "Mukesh",
+                    "Nagaraj", "Nand", "Nataraj", "Naveen", "Nilay", "Nitin",
                     "Om", "Omprakash", "Omkar",
-                    "Pavan", "Peter", "Pradeep", "Prabhu", "Prasanth", "Praveen", "Pronit",
+                    "Pavan", "Peter", "Piyush", "Pradeep", "Prabhu", "Prasanth", "Praveen", "Pronit",
                     "Raghupathi", "Rahul", "Rajat", "Rajeev", "Rajnish", "Ram", "Raman", "Ramesh",   "Ranjeet", "Ravi", "Rohan", "Rupam",
                     "Sachin", "Sai", "Sandeep", "Sanjay", "Sanjeev", "Satya", "Shashi", "Srihari", "Suresh", "Sohan", "Sridhar", "Srikanth", "Sunil",  "Sudeep", "Sumit",
-                    "Vasu", "Vijay", "Vikram", "Vinay", "Vinod", "Virat", "Vivaan"
+                    "Tushar",
+                    "Vasu",  "Vijay", "Vikram", "Vinay", "Vinil", "Vinod", "Virat", "Vivaan"
             };
 
     private static final String[] FEMALE_NAMES =
             {
                     "Aditi", "Anika", "Anita", "Anjali", "Anu", "Arushi", "Asha",
                     "Gauri", "Gita", "Geeta",
+                    "Joya", "Jyoti",
                     "Karishma", "Karuna", "Kavya", "Karina", "Kavitha",
                     "Lakshmi",
-                    "Manju", "Meena", "Meenu", "Meera", "Megha", "Mihika",
-                    "Nandita", "Neha", "Nisha", "Nita", "Neeta",
+                    "Manju", "Meena", "Meenu", "Meera", "Mita", "Megha", "Mihika",
+                    "Namita", "Nandita", "Neha", "Nisha", "Nita", "Neeta",
                     "Pooja", "Poonam", "Preeti", "Priya", "Priyanka", "Pushpa",
                     "Rita", "Ritu", "Riya",
-                    "Sanjana", "Sanju", "Saniya", "Shruti", "Simran", "Sita", "Sneha", "Sunita", "Sunitha", "Sushma",
-                    "Veena"
+                    "Sanjana", "Sanju", "Saniya", "Shruti", "Simran", "Sita", "Sneha", "Sonia", "Sudha", "Sunita", "Sunitha", "Sushma",
+                    "Veena", "Vineetha"
             };
 
 
