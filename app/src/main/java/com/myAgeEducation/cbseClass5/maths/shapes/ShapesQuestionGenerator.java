@@ -6,6 +6,7 @@ import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -71,6 +72,26 @@ public class ShapesQuestionGenerator {
                 answer = "TRUE";
                 options = new String[]{"TRUE", "FALSE"};
                 break;
+            case SYMMETRY_CONCEPT:
+            {
+                String[][] symQuestions = {
+                    {"How many lines of symmetry does a rectangle have?", "2", "1", "4", "infinite"},
+                    {"How many lines of symmetry does a square have?", "4", "2", "1", "8"},
+                    {"How many lines of symmetry does a pair of scissors have?", "1", "2", "0", "4"},
+                    {"TRUE or FALSE. A circle has only one line of symmetry.", "FALSE", "TRUE"},
+                    {"A circle has ___________ lines of symmetry.", "infinite", "one", "two", "four"},
+                    {"How many lines of symmetry does an equilateral triangle have?", "3", "1", "2", "0"},
+                    {"How many lines of symmetry does a regular pentagon have?", "5", "1", "4", "infinite"},
+                    {"How many lines of symmetry does the letter 'H' have?", "2", "1", "0", "4"},
+                    {"Which of these letters has no line of symmetry?", "F", "A", "M", "T"},
+                    {"A line that divides a figure into two identical halves is called a line of _________.", "symmetry", "boundary", "intersection", "division"}
+                };
+                int idx = RANDOM.nextInt(symQuestions.length);
+                question = symQuestions[idx][0];
+                answer = symQuestions[idx][1];
+                options = Arrays.copyOfRange(symQuestions[idx], 1, symQuestions[idx].length);
+                break;
+            }
             case QUADRILATERAL_RECTANGLE_TF:
             case DIAMETER_HALF_RADIUS_TF:
             case CLOSED_CURVES_POLYGON_TF:

@@ -16,7 +16,7 @@ public class PerimeterAreaQuestionGenerator {
     private static final Random RANDOM = new Random();
 
     public static Question generateQuestion() {
-        int type = RANDOM.nextInt(10);
+        int type = RANDOM.nextInt(12);
         PerimeterAreaQuestionData data;
         switch (type) {
             case 1: data = generatePerimeterSquareQuestion(); break;
@@ -28,15 +28,10 @@ public class PerimeterAreaQuestionGenerator {
             case 7: data = generateSameAreaComparisonQuestion(); break;
             case 8: data = generateGridMultiShapeQuiz(); break;
             case 9: data = generateAreaLogicComparisonQuestion(); break;
+            case 10: data = generateVolumeCubeQuestion(); break;
+            case 11: data = generateVolumeCuboidQuestion(); break;
             default: data = generateConceptQuestion();
         }
-        /*if(RANDOM.nextBoolean())
-        {
-            data = generateGridMultiShapeQuiz();
-        }
-        else {
-            data = generateAreaLogicComparisonQuestion();
-        }*/
         return convertToQuestion(data);
     }
 
@@ -74,7 +69,11 @@ public class PerimeterAreaQuestionGenerator {
             {"Which of these has a larger area?", "A classroom", "A pencil box", "A notebook", "A sharpener"},
             {"Perimeter of a square with side 's' is _________.", "4s", "s x s", "2s", "s + 4"},
             {"To fence a park, we need to know its _________.", "perimeter", "area", "volume", "weight"},
-            {"To carpet a room, we need to know its _________.", "area", "perimeter", "height", "length"}
+            {"To carpet a room, we need to know its _________.", "area", "perimeter", "height", "length"},
+            {"Volume of a cube with side 's' is _________.", "s x s x s", "s x s", "4s", "s + s + s"},
+            {"Standard unit of volume is _________.", "cubic units", "square units", "linear units", "kilograms"},
+            {"A cuboid has _________ dimensions.", "three", "two", "one", "four"},
+            {"The amount of space occupied by a solid is called its _________.", "volume", "area", "perimeter", "surface area"}
         };
         int idx = RANDOM.nextInt(concepts.length);
         String[] item = concepts[idx];
@@ -656,6 +655,41 @@ public class PerimeterAreaQuestionGenerator {
         PerimeterAreaQuestionData data = new PerimeterAreaQuestionData(question, answer, options, PerimeterAreaQuestionType.AREA_LOGIC_COMPARISON);
         data.setImageData(imageCode);
         return data;
+    }
+
+    private static PerimeterAreaQuestionData generateVolumeCubeQuestion() {
+        int side = 2 + RANDOM.nextInt(9); // 2-10 cm
+        String question = String.format("What is the volume of a cubic box whose sides are %d cm long?", side);
+        int volume = side * side * side;
+        String answer = volume + " cubic cm";
+        
+        List<String> options = new ArrayList<>();
+        options.add(answer);
+        options.add((side * side) + " cubic cm"); // Area distractor
+        options.add((4 * side) + " cubic cm"); // Perimeter distractor
+        options.add((volume + 10) + " cubic cm");
+        
+        Collections.shuffle(options);
+        return new PerimeterAreaQuestionData(question, answer, options.toArray(new String[0]), PerimeterAreaQuestionType.VOLUME_CUBE);
+    }
+
+    private static PerimeterAreaQuestionData generateVolumeCuboidQuestion() {
+        int l = 3 + RANDOM.nextInt(7); // 3-9
+        int b = 2 + RANDOM.nextInt(l - 1); // 2 to l-1
+        int h = 2 + RANDOM.nextInt(5); // 2-6
+        
+        String question = String.format("Find the volume of a cuboid with length %d cm, breadth %d cm and height %d cm.", l, b, h);
+        int volume = l * b * h;
+        String answer = volume + " cubic cm";
+        
+        List<String> options = new ArrayList<>();
+        options.add(answer);
+        options.add((l + b + h) + " cubic cm");
+        options.add((l * b) + " cubic cm");
+        options.add((volume - 5) + " cubic cm");
+        
+        Collections.shuffle(options);
+        return new PerimeterAreaQuestionData(question, answer, options.toArray(new String[0]), PerimeterAreaQuestionType.VOLUME_CUBOID);
     }
 
     private static class GridShape {

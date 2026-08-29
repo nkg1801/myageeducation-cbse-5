@@ -103,6 +103,7 @@ import com.myAgeEducation.cbseClass5.maths.placevalue.successorpredecessor.Succe
 import com.myAgeEducation.cbseClass5.maths.shapes.ShapesQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.subtractions.SubtractionFactQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.subtractions.SubtractionStoryQuestionGenerator;
+import com.myAgeEducation.cbseClass5.maths.symmetry.SymmetryQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableQuestionGenerator;
 import com.myAgeEducation.cbseClass5.science.ScienceQuestionGenerator;
 import com.myAgeEducation.cbsecommon.Question;
@@ -702,6 +703,24 @@ public class SubjectList extends Activity
         }
     }
 
+    private void addQuestionsForChapterSixteen()
+    {
+        int chapterNumber = 16;
+        String chapterName = "Symmetry";
+        Util.allQuestions.removeIf(question -> question.getChapter() == chapterNumber);
+
+        List<Question> questions = SymmetryQuestionGenerator.generateAllQuestions();
+        int numberOfQuestions = 20;
+
+        List<Question> top20Questions = questions.subList(0, Math.min(numberOfQuestions, questions.size()));
+        for(Question question : top20Questions)
+        {
+            question.setChapter(chapterNumber);
+            question.setChapterName(chapterName);
+            Util.allQuestions.add(question);
+        }
+    }
+
     private void addQuestionsForChapterSeven()
     {
         int chapterNumber = 7;
@@ -870,6 +889,7 @@ public class SubjectList extends Activity
         addQuestionsForChapterThirteen();
         addQuestionsForChapterFourteen();
         addQuestionsForChapterFifteen();
+        addQuestionsForChapterSixteen(); // questions on symmetry.. this chapter is there in ncert book as chapter 10
     }
 
 	public void openChapters(String questionSet)

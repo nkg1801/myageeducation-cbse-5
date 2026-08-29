@@ -21,6 +21,6 @@ public enum ShapesQuestionType {
     OTHER_RADII_LENGTH,        // If the length of a radius of a cicle is 5 cm, what is the length of the other radii...
     RADIUS_HALF_DIAMETER_TF,   // The radius is half the length of a diameter of a circle.
     SUM_RADII_DIAMETER_TF,      // The sum of the length of 2 radii of a cicle is equal to the length of its diameter
-
+    SYMMETRY_CONCEPT            // Questions about lines of symmetry
 }
 
