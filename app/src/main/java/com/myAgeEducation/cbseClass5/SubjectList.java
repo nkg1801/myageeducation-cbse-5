@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.myAgeEducation.cbseClass5.computers.ComputerQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.LineAndAngle.AngleImageGenerator;
 import com.myAgeEducation.cbseClass5.maths.LineAndAngle.AngleQuestionGenerator;
 import com.myAgeEducation.cbseClass5.maths.LineAndAngle.LineAndAngleQuestionGenerator;
@@ -215,7 +216,7 @@ public class SubjectList extends Activity
 
                     if (!Util.Subject.isEmpty()) {
                         Util.allQuestions.clear();
-                        if(Util.Subject.equalsIgnoreCase("maths") || Util.Subject.equalsIgnoreCase("science"))
+                        if(Util.Subject.equalsIgnoreCase("maths") || Util.Subject.equalsIgnoreCase("science") || Util.Subject.equalsIgnoreCase("computers"))
                         {
                             openChapters("set1");
                         }
@@ -234,10 +235,7 @@ public class SubjectList extends Activity
             findViewById(R.id.adView).setVisibility(View.VISIBLE);
 
             if (Util.AdDetail == null) {
-                FirebaseManager.readAds(new FirebaseCallback() {
-                    @Override
-                    public void onCallback(String value) {
-                    }
+                FirebaseManager.readAds(value -> {
                 });
             }
         }
@@ -334,6 +332,16 @@ public class SubjectList extends Activity
         {
             List<Question> scienceQuestions = ScienceQuestionGenerator.getQuestions(i+1);
             Util.allQuestions.addAll(scienceQuestions);
+        }
+    }
+
+    private void addComputerQuestions()
+    {
+        Util.allQuestions.clear();
+        for(int i = 0; i< ComputerQuestionGenerator.COMPUTER_CHAPTER_NAMES.size(); i++)
+        {
+            List<Question> computerQuestions = ComputerQuestionGenerator.getQuestions(i+1);
+            Util.allQuestions.addAll(computerQuestions);
         }
     }
 
@@ -889,7 +897,7 @@ public class SubjectList extends Activity
         addQuestionsForChapterThirteen();
         addQuestionsForChapterFourteen();
         addQuestionsForChapterFifteen();
-        addQuestionsForChapterSixteen(); // questions on symmetry.. this chapter is there in ncert book as chapter 10
+        addQuestionsForChapterSixteen(); // questions on symmetry. this chapter is there in ncert book as chapter 10
     }
 
 	public void openChapters(String questionSet)
@@ -900,6 +908,10 @@ public class SubjectList extends Activity
         else if(Util.Subject.equalsIgnoreCase("science"))
         {
             addScienceQuestions();
+        }
+        else if(Util.Subject.equalsIgnoreCase("computers"))
+        {
+            addComputerQuestions();
         }
 
 		Intent chapterIntent = new Intent();

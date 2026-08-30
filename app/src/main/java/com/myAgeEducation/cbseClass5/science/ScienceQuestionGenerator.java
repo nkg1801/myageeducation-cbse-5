@@ -4,45 +4,44 @@ import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 public class ScienceQuestionGenerator {
     public static List<Question> getQuestions(int chapter)
     {
-        List<ConceptQuestion> conceptQuestions = FixedQuestionRepository.getFixedQuestions(chapter);
+        String[][] rawQuestions = FixedQuestionRepository.getFixedQuestions(chapter);
+        List<String[]> conceptQuestions = new ArrayList<>(Arrays.asList(rawQuestions));
 
         Collections.shuffle(conceptQuestions);
-        List<ConceptQuestion> onlyFirstTwenty = conceptQuestions.subList(0, Math.min(20, conceptQuestions.size()));
-        Collections.shuffle(onlyFirstTwenty);
+        List<String[]> onlyFirstTwenty = conceptQuestions.subList(0, Math.min(20, conceptQuestions.size()));
 
         List<Question> questions = new ArrayList<>();
 
-        for (ConceptQuestion conceptQuestion : onlyFirstTwenty) {
+        for (String[] conceptQuestion : onlyFirstTwenty) {
 
             Question question = new Question();
 
-            question.setQuestion(conceptQuestion.getQuestion());
+            question.setQuestion(conceptQuestion[0]);
             question.setChapter(chapter);
             question.setChapterName(SCIENCE_CHAPTER_NAMES.get(chapter));
-            question.setAnswer(conceptQuestion.getAnswer());
-            question.setImage(conceptQuestion.getImageCode());
+            question.setAnswer(conceptQuestion[1]);
+            question.setImage(conceptQuestion[5]);
 
             List<String> options = new ArrayList<>();
 
-            options.add(conceptQuestion.getAnswer());
-            options.add(conceptQuestion.getOption1());
-            if(!conceptQuestion.getOption2().isEmpty())
+            options.add(conceptQuestion[1]);
+            options.add(conceptQuestion[2]);
+            if(conceptQuestion[3] != null && !conceptQuestion[3].isEmpty())
             {
-                options.add(conceptQuestion.getOption2());
+                options.add(conceptQuestion[3]);
             }
 
-            if(!conceptQuestion.getOption3().isEmpty()) {
-                options.add(conceptQuestion.getOption3());
+            if(conceptQuestion[4] != null && !conceptQuestion[4].isEmpty()) {
+                options.add(conceptQuestion[4]);
             }
 
             if(options.size() > 2) {

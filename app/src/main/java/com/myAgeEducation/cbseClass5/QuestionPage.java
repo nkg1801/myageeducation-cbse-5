@@ -681,7 +681,12 @@ public class QuestionPage extends Activity
 		}
 		else
 		{
-			Random r = new Random();
+			((RadioButton)findViewById(R.id.radio_option1)).setText(option1);
+			((RadioButton)findViewById(R.id.radio_option2)).setText(option2);
+			((RadioButton)findViewById(R.id.radio_option3)).setText(option3);
+			((RadioButton)findViewById(R.id.radio_option4)).setText(option4);
+
+			/*Random r = new Random();
 			int random = r.nextInt(4) + 1; //Generate a random no. from 1 to 4 to shuffle the options
 
 			switch(random)
@@ -716,7 +721,7 @@ public class QuestionPage extends Activity
 
 				default:
 					break;
-			}
+			}*/
 		}
 	}
   

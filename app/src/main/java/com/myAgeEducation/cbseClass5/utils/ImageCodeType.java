@@ -7,9 +7,6 @@ public final class ImageCodeType
      */
     public static final String DIVISION = "DIV";
     public static final String PICTOGRAPH = "PICTOGRAPH";
-    public static final String FRACTION = "FRAC";
-    public static final String GEOMETRY = "GEO";
-    public static final String MONEY = "MON";
     public static final String FRACTION_CHOICE = "use_fraction_choice_generator_code;";
     public static final String CLOCK = "CLOCK";
     public static final String CIRCLE_GRAPH = "CIRCLE-GRAPH";
@@ -27,7 +24,7 @@ public final class ImageCodeType
     public static final String METRO_MAP = "METRO-MAP";
     public static final String PATTERN_SEQUENCE = "PATTERN-SEQUENCE";
     public static final String EQUIVALENT_FRACTION = "EQ-FRAC";
-    public static final String RESOURCE_IMAGE = "RESOURCE-IMAGE"; // should use ; as delimeter since resource name can have _
+    public static final String RESOURCE_IMAGE = "RESOURCE-IMAGE"; // should use ; as delimiter since resource name can have _
     public static final String TILE_COVERING = "TILE-COVERING";
 
     private ImageCodeType()

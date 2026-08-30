@@ -270,7 +270,7 @@ public class PerimeterAreaQuestionGenerator {
                     "Look at the different tiles on her desk and answer how many of the following shapes will cover the desk: " + shapeName;
         }
         else {
-            question = PersonNameUtil.getMaleName() + " is playing with tiles. He covers her desk with different shapes as shown below. " +
+            question = PersonNameUtil.getMaleName() + " is playing with tiles. He covers his desk with different shapes as shown below. " +
                     "Look at the different tiles on his desk and answer how many of the following shapes will cover the desk: " + shapeName;
         }
 

@@ -11,7 +11,7 @@ public class PersonNameUtil
 
     private static final String[] MALE_NAMES =
             {
-                    "Aarav", "Aayush", "Abhay", "Aditya", "Ajay", "Akash", "Amar", "Amit", "Amol", "Animesh", "Ankur", "Anthony", "Arjun", "Arnab",
+                    "Aarav", "Aayush", "Abhay", "Aditya", "Ajay", "Akash", "Amar", "Amit", "Amol", "Animesh", "Ankur", "Anthony", "Arjun", "Arman", "Arnab",
                     "Aman", "Amrit", "Ananth", "Anil", "Anirudh", "Ankit",
                     "Arun", "Ashish", "Atul", "Ayan",
                     "Benny", "Bijo", "Biman", "Binay",
@@ -34,6 +34,7 @@ public class PersonNameUtil
     private static final String[] FEMALE_NAMES =
             {
                     "Aditi", "Anika", "Anita", "Anjali", "Anu", "Arushi", "Asha",
+                    "Disha",
                     "Gauri", "Gita", "Geeta",
                     "Joya", "Jyoti",
                     "Karishma", "Karuna", "Kavya", "Karina", "Kavitha",
