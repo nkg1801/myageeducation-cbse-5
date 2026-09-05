@@ -3,6 +3,7 @@ package com.myAgeEducation.cbseClass5.maths.placevalue.numbercomparison;
 import com.myAgeEducation.cbseClass5.maths.utils.NumberFormatUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -93,12 +94,44 @@ public class NumberComparisonDataGenerator
 
     public static NumberComparisonQuestionData generate()
     {
-        ComparisonQuestionType questionType =
-                RANDOM.nextBoolean()
-                        ? ComparisonQuestionType.WHICH_IS_TRUE
-                        : ComparisonQuestionType.WHICH_IS_FALSE;
+        int type = RANDOM.nextInt(4);
+        ComparisonQuestionType questionType;
+        switch(type) {
+            case 0: questionType = ComparisonQuestionType.WHICH_IS_TRUE; break;
+            case 1: questionType = ComparisonQuestionType.WHICH_IS_FALSE; break;
+            case 2: questionType = ComparisonQuestionType.WHICH_IS_GREATER; break;
+            default: questionType = ComparisonQuestionType.WHICH_IS_SMALLER; break;
+        }
 
         int[] numbers = generateSimilarNumbers();
+
+        if (questionType == ComparisonQuestionType.WHICH_IS_GREATER || questionType == ComparisonQuestionType.WHICH_IS_SMALLER) {
+            int first = numbers[RANDOM.nextInt(4)];
+            int second;
+            do {
+                second = numbers[RANDOM.nextInt(4)];
+            } while (second == first);
+
+            String s1 = NumberFormatUtil.formatIndianNumber(first);
+            String s2 = NumberFormatUtil.formatIndianNumber(second);
+            
+            String correctAnswer;
+            if (questionType == ComparisonQuestionType.WHICH_IS_GREATER) {
+                correctAnswer = first > second ? s1 : s2;
+            } else {
+                correctAnswer = first < second ? s1 : s2;
+            }
+            
+            String[] options = {s1, s2, "Both are equal", "Cannot say"};
+            Collections.shuffle(Arrays.asList(options).subList(0, 2)); // Shuffle only first two? No, let's shuffle all.
+            List<String> optList = new ArrayList<>(Arrays.asList(options));
+            Collections.shuffle(optList);
+
+            return new NumberComparisonQuestionData(
+                    optList.toArray(new String[0]),
+                    correctAnswer,
+                    questionType);
+        }
 
         List<ComparisonStatement> allStatements = generateComparisonStatements(numbers);
         List<ComparisonStatement> trueStatements = new ArrayList<>();

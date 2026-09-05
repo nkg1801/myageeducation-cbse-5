@@ -39,7 +39,7 @@ public class RoundingQuestionGenerator
         }
 
         /*
-         * Generate the ONE correct pair.
+         * Generate the ONE correct answer.
          */
         int validNumber = RoundingUtils.generateValidNumber(random);
 
@@ -50,19 +50,33 @@ public class RoundingQuestionGenerator
         options.add(validNumber + "");
 
         /*
-         * Generate all remaining options as invalid pairs.
+         * Generate all remaining options as invalid numbers.
          */
         while (options.size() < optionCount)
         {
-            RoundingNumberPair invalidPair = RoundingUtils.generateInvalidPair(random);
-            options.add(invalidPair.getFirstNumber() + "");
+            int invalidNumber = RoundingUtils.generateInvalidNumber(random);
+            String invalidStr = String.valueOf(invalidNumber);
+            if (!options.contains(invalidStr))
+            {
+                options.add(invalidStr);
+            }
         }
 
         Collections.shuffle(options, random);
 
+        final Random RANDOM = new Random();
+        String firstName, secondName;
+        if(RANDOM.nextBoolean()) {
+            firstName = PersonNameUtil.getMaleName();
+            secondName = PersonNameUtil.getFemaleName();
+        } else {
+            firstName = PersonNameUtil.getFemaleName();
+            secondName = PersonNameUtil.getMaleName();
+        }
+
         String questionText =
-                PersonNameUtil.getMaleName() + " rounded off a number to the nearest "
-                        + "hundred. " + PersonNameUtil.getFemaleName() + " rounded off the same "
+                firstName + " rounded off a number to the nearest "
+                        + "hundred. " + secondName + " rounded off the same "
                         + "number to the nearest thousand. "
                         + "Both got the same result. "
                         + "Choose the number they "

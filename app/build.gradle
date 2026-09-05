@@ -6,6 +6,7 @@ android {
     namespace 'com.myAgeEducation.cbseClass5'
 
     /*Version details
+        36: some grammatical corrections for questions, more questions on shapes, patterns and multiples
         35: More mapping skills questions added
         34: Maths questions are now generated dynamically
 	    33: SDK update to 37
@@ -27,8 +28,8 @@ android {
         minSdkVersion 26
         targetSdkVersion 37
         multiDexEnabled true
-        versionCode 35
-        versionName "3.5"
+        versionCode 36
+        versionName "3.6"
     }
 
     /*buildTypes {
@@ -64,7 +65,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:25.4.0'
     implementation project(":cbsecommon_aar-release")
     implementation 'com.google.firebase:firebase-database:22.0.1'
-    implementation 'com.google.firebase:firebase-auth:24.1.0'
+    implementation 'com.google.firebase:firebase-auth:24.2.0'
     implementation 'com.squareup.picasso:picasso:2.71828' // do not change this, it creates some problems - Nand
 }
 

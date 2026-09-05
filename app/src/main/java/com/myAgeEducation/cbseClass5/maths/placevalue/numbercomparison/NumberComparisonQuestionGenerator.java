@@ -15,8 +15,18 @@ public class NumberComparisonQuestionGenerator
         {
             return "Which is true?";
         }
-
-        return "Which is false?";
+        else if (data.questionType == ComparisonQuestionType.WHICH_IS_FALSE)
+        {
+            return "Which is false?";
+        }
+        else if (data.questionType == ComparisonQuestionType.WHICH_IS_GREATER)
+        {
+            return "Which integer is greater?";
+        }
+        else
+        {
+            return "Which integer is smaller?";
+        }
     }
 
     public static Question generateQuestion()

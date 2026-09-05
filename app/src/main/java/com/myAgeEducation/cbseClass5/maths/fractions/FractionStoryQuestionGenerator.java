@@ -86,7 +86,7 @@ public class FractionStoryQuestionGenerator
 
     private static List<String> generateOptions(int answer)
     {
-        List<String> values = new ArrayList<>();
+        java.util.Set<String> values = new java.util.LinkedHashSet<>();
         values.add(String.valueOf(answer));
 
         if (answer > 1) {
@@ -95,7 +95,13 @@ public class FractionStoryQuestionGenerator
 
         values.add(String.valueOf(answer + 1));
         values.add(String.valueOf(answer + 2));
-        Collections.shuffle(values);
-        return values;
+        
+        while (values.size() < 4) {
+            values.add(String.valueOf(answer + 3 + values.size()));
+        }
+        
+        List<String> list = new ArrayList<>(values);
+        Collections.shuffle(list);
+        return list;
     }
 }

@@ -33,7 +33,7 @@ public class PersonNameUtil
 
     private static final String[] FEMALE_NAMES =
             {
-                    "Aditi", "Anika", "Anita", "Anjali", "Anu", "Arushi", "Asha",
+                    "Aditi", "Anika", "Anita", "Anjali", "Anu", "Anusha", "Arushi", "Asha",
                     "Disha",
                     "Gauri", "Gita", "Geeta",
                     "Joya", "Jyoti",

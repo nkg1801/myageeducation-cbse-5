@@ -1,5 +1,6 @@
 package com.myAgeEducation.cbseClass5.maths.multiples;
 
+import com.myAgeEducation.cbseClass5.maths.utils.PersonNameUtil;
 import com.myAgeEducation.cbseClass5.utils.OptionUtils;
 import com.myAgeEducation.cbsecommon.Question;
 
@@ -187,34 +188,44 @@ public class MultipleQuestionGenerator {
                 sb.append(lcm * i);
                 if (i < 3) sb.append(", ");
             }
-            answer = sb.toString() + " days";
+            answer = sb + " days";
             unit = "days";
         } else if (templateIndex == 1) {
             // Bells
-            int n1 = 10 + RANDOM.nextInt(20);
-            int n2 = 15 + RANDOM.nextInt(20);
+            int n1 = 15 + RANDOM.nextInt(15);
+            int n2 = 20 + RANDOM.nextInt(20);
             lcm = MultipleOptionUtils.getLCM(n1, n2);
             question = String.format(templates[1], n1, n2);
-            
-            int hours = lcm / 60;
-            int mins = lcm % 60;
-            int newHour = (10 + hours) % 12;
-            if (newHour == 0) newHour = 12;
-            answer = String.format("%02d:%02d AM", newHour, mins);
+
+            int totalMinutes = 10 * 60 + lcm;
+            int newHour24 = (totalMinutes / 60) % 24;
+            int mins = totalMinutes % 60;
+            String period = (newHour24 >= 12) ? "PM" : "AM";
+            int newHour12 = newHour24 % 12;
+            if (newHour12 == 0) newHour12 = 12;
+            answer = String.format("%02d:%02d %s", newHour12, mins, period);
         } else if (templateIndex == 2) {
             // Traffic lights
-            int n1 = 10 + RANDOM.nextInt(10);
-            int n2 = 15 + RANDOM.nextInt(10);
-            int n3 = 20 + RANDOM.nextInt(10);
+            int n1 = 20 + RANDOM.nextInt(20);
+            int n2 = 30 + RANDOM.nextInt(30);
+            int n3 = 40 + RANDOM.nextInt(40);
             lcm = MultipleOptionUtils.getLCM(n1, MultipleOptionUtils.getLCM(n2, n3));
             question = String.format(templates[2], n1, n2, n3);
-            
-            int mins = lcm / 60;
-            int secs = lcm % 60;
-            answer = String.format("8:%02d:%02d AM", mins, secs);
+
+            int totalSeconds = 8 * 3600 + lcm;
+            int newHour24 = (totalSeconds / 3600) % 24;
+            int remainingSecs = totalSeconds % 3600;
+            int mins = remainingSecs / 60;
+            int secs = remainingSecs % 60;
+            String period = (newHour24 >= 12) ? "PM" : "AM";
+            int newHour12 = newHour24 % 12;
+            if (newHour12 == 0) newHour12 = 12;
+            answer = String.format("%d:%02d:%02d %s", newHour12, mins, secs, period);
         } else {
             // Friends running
-            String[] names = {"Amit", "Rahul", "Sneha", "Priya"};
+
+            String[] names = PersonNameUtil.getDifferentNames(4);
+
             int n1 = 5 + RANDOM.nextInt(10);
             int n2 = 5 + RANDOM.nextInt(10);
             while (n1 == n2) n2 = 5 + RANDOM.nextInt(10);

@@ -135,9 +135,21 @@ public class MultipleOptionUtils {
             options.add("Every " + (lcm + 2) + " days");
         } else if (correctAnswer.contains(":")) {
             // It's a time
-            options.add("10:15 AM");
-            options.add("10:30 AM");
-            options.add("11:00 AM");
+            String[] timeParts = correctAnswer.split(" ");
+            String time = timeParts[0];
+            String period = timeParts.length > 1 ? timeParts[1] : "AM";
+            
+            if (time.split(":").length > 2) {
+                // H:MM:SS format
+                addTimeDistractor(options, "8:05:00 " + period);
+                addTimeDistractor(options, "8:10:00 " + period);
+                addTimeDistractor(options, "8:15:00 " + period);
+            } else {
+                // HH:MM format
+                addTimeDistractor(options, "10:15 " + period);
+                addTimeDistractor(options, "10:30 " + period);
+                addTimeDistractor(options, "11:00 " + period);
+            }
         } else {
             // It's a single number
             int val = Integer.parseInt(correctAnswer.split(" ")[0]);
@@ -152,6 +164,12 @@ public class MultipleOptionUtils {
 
         Collections.shuffle(options, RANDOM);
         return options.toArray(new String[0]);
+    }
+
+    private static void addTimeDistractor(List<String> options, String distractor) {
+        if (!options.contains(distractor)) {
+            options.add(distractor);
+        }
     }
 
     public static int getGCD(int a, int b) {

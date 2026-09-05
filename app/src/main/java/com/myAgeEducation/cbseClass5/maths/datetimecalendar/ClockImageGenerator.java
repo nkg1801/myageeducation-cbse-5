@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import com.myAgeEducation.cbseClass5.utils.BackgroundTheme;
+import com.myAgeEducation.cbseClass5.utils.Utility;
 
 import java.util.Random;
 
@@ -17,14 +17,14 @@ public class ClockImageGenerator {
         int hour = Integer.parseInt(values[1]);
         int minute = Integer.parseInt(values[2]);
 
-        BackgroundTheme theme = BackgroundTheme.values()[RANDOM.nextInt(BackgroundTheme.values().length)];
+        //BackgroundTheme theme = BackgroundTheme.values()[RANDOM.nextInt(BackgroundTheme.values().length)];
 
         int size = 600;
         Bitmap bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         bgPaint.setStyle(Paint.Style.FILL);
-        bgPaint.setColor(getBackgroundColor(theme));
+        bgPaint.setColor(Utility.getRandomLightBackgroundColor());
         canvas.drawRect(0, 0, size, size, bgPaint);
         float cx = size / 2f;
         float cy = size / 2f;
@@ -99,7 +99,7 @@ public class ClockImageGenerator {
         canvas.drawCircle(cx,cy,size*0.02f,center);
     }
 
-    private static int getBackgroundColor(BackgroundTheme theme) {
+    /*private static int getBackgroundColor(BackgroundTheme theme) {
         switch (theme) {
 
             case LIGHT_BLUE:
@@ -142,5 +142,5 @@ public class ClockImageGenerator {
             default:
                 return Color.WHITE;
         }
-    }
+    }*/
 }

@@ -38,31 +38,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.myAgeEducation.cbseClass5.maths.LineAndAngle.AngleImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.charts.BarChartImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.circlegraph.CircleGraphImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.datetimecalendar.CalendarImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.datetimecalendar.ClockImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.decimals.DecimalGridImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.decimals.DecimalImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.divisions.facts.DivisionPictureImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.fractions.EquivalentFractionImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.fractions.FractionChoiceGenerator;
-import com.myAgeEducation.cbseClass5.maths.fractions.FractionImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.fractions.NumericFractionImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.mappingskills.DirectionDistanceImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.mappingskills.NeighborhoodMapImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.mappingskills.MetroMapImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.mappingskills.ZooMapImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.pattern.PatternSequenceImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.perimeterarea.TileCoveringImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.pictograph.PictographImageGenerator;
-import com.myAgeEducation.cbseClass5.maths.tabularquestions.TableImageGenerator;
-import com.myAgeEducation.cbseClass5.utils.ImageCodeParser;
-import com.myAgeEducation.cbseClass5.utils.ImageCodeType;
-import com.myAgeEducation.cbseClass5.utils.ImageGenerator;
+import com.myAgeEducation.cbseClass5.utils.Utility;
 import com.myAgeEducation.cbsecommon.Question;
-
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,11 +47,8 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
@@ -307,7 +281,7 @@ public class QuestionPage extends Activity
 		if(_isRecoverMode)
 		{
 			int lastScore = _bundle.getInt("last_score");
-			tvScore.setText("Score: " + String.valueOf(lastScore) + "/" + String.valueOf(questionCount));
+			tvScore.setText("Score: " + lastScore + "/" + questionCount);
 		}
 		else
 		{
@@ -417,7 +391,7 @@ public class QuestionPage extends Activity
 					SaveLastAttemptScore();
 				}
 				else {
-					clearState(); // Test is completed.. so remove the saved state
+					clearState(); // Test is completed. so remove the saved state
 					openTestReportActivity();
 					finish();
 				}
@@ -513,40 +487,22 @@ public class QuestionPage extends Activity
 			imageData = "";
 		}
 
-		Map<String, String> values = ImageCodeParser.parse(imageData);
-
-		if (values.containsKey("TYPE") && values.get("TYPE") != null && !Objects.requireNonNull(values.get("TYPE")).isEmpty())
-		{
-			Bitmap bitmap = getQuestionImage(imageData);
-			if(bitmap != null) {
-				img.setImageBitmap(bitmap);
-				img.setVisibility(View.VISIBLE);
-				setImageViewWidth(img, bitmap.getWidth());
-			}
-			else
-			{
-				if (imageData.length() > 1000) {
-					img.setImageBitmap(loadBitmapFromBase64Encoding(imageData));
-					img.setVisibility(View.VISIBLE);
-
-				} else {
-					int resourceIdentifier = getResources().getIdentifier(imageData, "drawable", getPackageName());
-					if (resourceIdentifier != 0) {
-						img.setImageResource(resourceIdentifier);
-						img.setVisibility(View.VISIBLE);
-					}
-				}
-			}
+		Bitmap dynamicBitmap = com.myAgeEducation.cbseClass5.utils.DynamicImageDispatcher.dispatch(this, imageData);
+		if (dynamicBitmap != null) {
+			img.setImageBitmap(dynamicBitmap);
+			img.setVisibility(View.VISIBLE);
+			setImageViewWidth(img, dynamicBitmap.getWidth());
+			return;
 		}
-		else {
-			if (imageData.length() < 50) {
-				int resourceIdentifier = getResources().getIdentifier(imageData, "drawable", getPackageName());
-				if (resourceIdentifier != 0) {
-					img.setImageResource(resourceIdentifier);
-					img.setVisibility(View.VISIBLE);
-				}
-			} else {
-				img.setImageBitmap(loadBitmapFromBase64Encoding(imageData));
+
+		if (imageData.length() > 1000) {
+			img.setImageBitmap(loadBitmapFromBase64Encoding(imageData));
+			img.setVisibility(View.VISIBLE);
+
+		} else {
+			int resourceIdentifier = getResources().getIdentifier(imageData, "drawable", getPackageName());
+			if (resourceIdentifier != 0) {
+				img.setImageResource(resourceIdentifier);
 				img.setVisibility(View.VISIBLE);
 			}
 		}
@@ -563,87 +519,6 @@ public class QuestionPage extends Activity
 		img.setLayoutParams(params);
 	}
 
-	private Bitmap getQuestionImage(String imageData)
-	{
-		if(imageData.contains(ImageCodeType.FRACTION_CHOICE))
-		{
-			return FractionChoiceGenerator.generateBitmap(imageData);
-		}
-
-		if(imageData.contains(ImageCodeType.RESOURCE_IMAGE))
-		{
-			return ImageGenerator.generate(this, imageData);
-		}
-
-		Map<String, String> values = ImageCodeParser.parse(imageData);
-
-		switch (Objects.requireNonNull(values.get("TYPE")))
-		{
-			case ImageCodeType.BARCHART:
-				return BarChartImageGenerator.generate(imageData);
-
-			case ImageCodeType.CIRCLE_GRAPH:
-				return CircleGraphImageGenerator.generate(imageData);
-
-			case ImageCodeType.CLOCK:
-				return ClockImageGenerator.generateClockImage(imageData);
-
-			case ImageCodeType.CALENDAR:
-				return CalendarImageGenerator.generateCalendarImage(imageData);
-
-			case ImageCodeType.DECIMAL_GRID:
-				return DecimalGridImageGenerator.generate(imageData);
-
-			case ImageCodeType.DECIMAL_IMAGE:
-				return DecimalImageGenerator.generate(imageData);
-
-			case ImageCodeType.DIVISION:
-				return DivisionPictureImageGenerator.generate(imageData);
-
-			case ImageCodeType.NUMERIC_FRACTION:
-				return NumericFractionImageGenerator.generate(imageData);
-
-			case ImageCodeType.PICTOGRAPH:
-				return PictographImageGenerator.generate(this, imageData);
-
-			case ImageCodeType.SHAPE_PART_FRACTION:
-				return FractionImageGenerator.generateFractionImage(imageData);
-
-			case ImageCodeType.TABLE:
-				return TableImageGenerator.generate(imageData);
-
-			case ImageCodeType.ANGLE:
-				return AngleImageGenerator.generateImage(imageData);
-
-			case ImageCodeType.TILE_COVERING:
-				return TileCoveringImageGenerator.generate(imageData);
-
-			case ImageCodeType.DISTANCE_GRID_QUIZ:
-				return DirectionDistanceImageGenerator.generate(this, imageData);
-
-			case ImageCodeType.ZOO_MAP:
-				return ZooMapImageGenerator.generate(this, imageData);
-
-			case ImageCodeType.NEIGHBORHOOD_MAP:
-				return NeighborhoodMapImageGenerator.generate(this, imageData);
-
-			case ImageCodeType.METRO_MAP:
-				return MetroMapImageGenerator.generate(this, imageData);
-
-			case ImageCodeType.PATTERN_SEQUENCE:
-				return PatternSequenceImageGenerator.generate(this, imageData);
-
-			case ImageCodeType.EQUIVALENT_FRACTION:
-				return EquivalentFractionImageGenerator.generate(imageData);
-
-			/*case ImageCodeType.FRACTION_CHOICE:
-				return FractionChoiceGenerator.generateBitmap(imageData);*/
-
-			default:
-				return null;
-		}
-	}
-
 	private void setSupportiveText(String supportiveText)
 	{
 		findViewById(R.id.textViewSupportiveText).setVisibility(View.INVISIBLE);
@@ -654,6 +529,7 @@ public class QuestionPage extends Activity
 		}
 		((TextView)findViewById(R.id.textViewSupportiveText)).setText(supportiveText);
 		findViewById(R.id.textViewSupportiveText).setVisibility(View.VISIBLE);
+		findViewById(R.id.textViewSupportiveText).setBackgroundColor(Utility.getRandomLightBackgroundColor());
 	}
 
 	private void setOptions(Question question)

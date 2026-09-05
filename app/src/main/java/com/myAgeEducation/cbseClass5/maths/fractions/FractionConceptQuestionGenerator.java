@@ -29,7 +29,6 @@ public class FractionConceptQuestionGenerator
         }
     }
 
-
     private static final ConceptQuestion[] FIXED_QUESTIONS =
             {
                     new ConceptQuestion(

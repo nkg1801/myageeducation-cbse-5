@@ -166,23 +166,32 @@ public class MeasurementStoryQuestionGenerator {
     }
 
     private static String[] generateOptions(int totalValue, int factor, String unit1, String unit2) {
-        Set<String> options = new LinkedHashSet<>();
-
         int v1 = totalValue / factor;
         int v2 = totalValue % factor;
-        options.add(v1 + " " + unit1 + " " + v2 + " " + unit2);
+        String correct = v1 + " " + unit1 + " " + v2 + " " + unit2;
+        
+        Set<String> distractors = new LinkedHashSet<>();
 
         // Variations
-        options.add((v1 + 1) + " " + unit1 + " " + v2 + " " + unit2);
-        if (v1 > 1) options.add((v1 - 1) + " " + unit1 + " " + v2 + " " + unit2);
-        options.add(v1 + " " + unit1 + " " + (v2 + (factor / 10)) % factor + " " + unit2);
+        distractors.add((v1 + 1) + " " + unit1 + " " + v2 + " " + unit2);
+        if (v1 > 1) distractors.add((v1 - 1) + " " + unit1 + " " + v2 + " " + unit2);
+        distractors.add(v1 + " " + unit1 + " " + (v2 + (factor / 10)) % factor + " " + unit2);
         
-        while (options.size() < 4) {
-            options.add((v1 + RANDOM.nextInt(5) + 2) + " " + unit1 + " " + RANDOM.nextInt(factor) + " " + unit2);
+        while (distractors.size() < 10) {
+            distractors.add((v1 + RANDOM.nextInt(5) + 2) + " " + unit1 + " " + RANDOM.nextInt(factor) + " " + unit2);
         }
 
-        List<String> list = new ArrayList<>(options);
-        Collections.shuffle(list);
-        return list.subList(0, 4).toArray(new String[0]);
+        List<String> distractorList = new ArrayList<>(distractors);
+        distractorList.remove(correct);
+        Collections.shuffle(distractorList);
+        
+        List<String> finalOptions = new ArrayList<>();
+        finalOptions.add(correct);
+        for (int i = 0; i < 3; i++) {
+            finalOptions.add(distractorList.get(i));
+        }
+
+        Collections.shuffle(finalOptions);
+        return finalOptions.toArray(new String[0]);
     }
 }

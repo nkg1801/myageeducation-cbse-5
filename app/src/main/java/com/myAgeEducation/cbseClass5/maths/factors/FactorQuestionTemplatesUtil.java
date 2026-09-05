@@ -35,12 +35,6 @@ public class FactorQuestionTemplatesUtil {
             "%d is one of the factors of %d. TRUE or FALSE?",
             "%d can divide %d without leaving a remainder. TRUE or FALSE?",
             "%d is a divisor of %d. TRUE or FALSE?",
-            //"%d goes evenly into %d. TRUE or FALSE?",
-            //"%d is not a factor of %d. TRUE or FALSE?",
-            //"%d does not divide %d exactly. TRUE or FALSE?",
-            //"%d is among the positive factors of %d. TRUE or FALSE?",
-            //"%d can be multiplied by an integer to get %d. TRUE or FALSE?",
-            //"%d is evenly divisible into %d. TRUE or FALSE?",
             "Is it true that %d is a factor of %d?",
             "TRUE or FALSE: %d is a divisor of %d.",
             "TRUE or FALSE: %d divides %d without a remainder.",
@@ -84,7 +78,6 @@ public class FactorQuestionTemplatesUtil {
             "Select the factor of %d.",
             "Can you find a factor of %d?",
             "Tick the number that is a factor of %d.",
-            "Circle the factor of %d.",
             "From the given numbers, which is a factor of %d?"
     };
 

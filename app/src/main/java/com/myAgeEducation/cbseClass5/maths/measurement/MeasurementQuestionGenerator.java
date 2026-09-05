@@ -266,30 +266,44 @@ public class MeasurementQuestionGenerator
         // Correct answer
         int v1 = totalValue / divisor;
         int v2 = totalValue % divisor;
-        options.add(v1 + " " + unit1 + " " + v2 + " " + unit2);
+        String correct = v1 + " " + unit1 + " " + v2 + " " + unit2;
+        options.add(correct);
 
+        List<String> candidates = new ArrayList<>();
         // Swap values if different and v2 is small enough
         if (v1 != v2 && v2 > 0 && v2 < 100) {
-            options.add(v2 + " " + unit1 + " " + v1 + " " + unit2);
+            candidates.add(v2 + " " + unit1 + " " + v1 + " " + unit2);
         }
 
         // Add variations
-        options.add((v1 * 10) + " " + unit1 + " " + v2 + " " + unit2);
+        candidates.add((v1 * 10) + " " + unit1 + " " + v2 + " " + unit2);
         if (v2 != 0) {
-            options.add(v1 + " " + unit1 + " " + (v2 * 10) + " " + unit2);
+            candidates.add(v1 + " " + unit1 + " " + (v2 * 10) + " " + unit2);
         }
-        options.add((v1 + 1) + " " + unit1 + " " + v2 + " " + unit2);
-        options.add(v1 + " " + unit1 + " " + (v2 + 1) + " " + unit2);
+        candidates.add((v1 + 1) + " " + unit1 + " " + v2 + " " + unit2);
+        candidates.add(v1 + " " + unit1 + " " + (v2 + 1) + " " + unit2);
+
+        // Add more random ones if needed
+        while (candidates.size() < 10) {
+            candidates.add((v1 + RANDOM.nextInt(10) + 2) + " " + unit1 + " " + RANDOM.nextInt(divisor) + " " + unit2);
+        }
+
+        Collections.shuffle(candidates);
+
+        for (String candidate : candidates) {
+            if (options.size() < 4) {
+                if (!candidate.equals(correct)) {
+                    options.add(candidate);
+                }
+            } else {
+                break;
+            }
+        }
 
         List<String> list = new ArrayList<>(options);
         Collections.shuffle(list);
 
-        // Ensure we have at least 4 options
-        while (list.size() < 4) {
-            list.add((v1 + RANDOM.nextInt(10) + 2) + " " + unit1 + " " + RANDOM.nextInt(divisor) + " " + unit2);
-        }
-
-        return list.subList(0, 4).toArray(new String[0]);
+        return list.toArray(new String[0]);
     }
 
     private static String[] generateNumberOptions(

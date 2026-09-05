@@ -62,9 +62,11 @@ public class NumberSeriesQuestionGenerator {
         Set<String> options = new LinkedHashSet<>();
         options.add(formatSequence(series, startIdx, count));
 
-        while (options.size() < 4) {
-            int wrongStep = step + (RANDOM.nextInt(5) - 2) * 10;
-            if (wrongStep == step || wrongStep <= 0) wrongStep = step + 100;
+        int attempts = 0;
+        while (options.size() < 4 && attempts < 50) {
+            attempts++;
+            int wrongStep = step + (RANDOM.nextInt(11) - 5) * 5;
+            if (wrongStep == step || wrongStep <= 0) wrongStep = step + 10;
 
             int[] wrongSeries = new int[series.length];
             wrongSeries[startIdx - 1] = series[startIdx - 1];
@@ -72,6 +74,20 @@ public class NumberSeriesQuestionGenerator {
                 wrongSeries[i] = wrongSeries[i - 1] + wrongStep;
             }
             options.add(formatSequence(wrongSeries, startIdx, count));
+        }
+
+        // Final fallback if we still don't have enough options
+        int fallbackStep = step + 1;
+        while (options.size() < 4) {
+            if (fallbackStep != step && fallbackStep > 0) {
+                int[] wrongSeries = new int[series.length];
+                wrongSeries[startIdx - 1] = series[startIdx - 1];
+                for (int i = startIdx; i < wrongSeries.length; i++) {
+                    wrongSeries[i] = wrongSeries[i - 1] + fallbackStep;
+                }
+                options.add(formatSequence(wrongSeries, startIdx, count));
+            }
+            fallbackStep++;
         }
 
         List<String> list = new ArrayList<>(options);

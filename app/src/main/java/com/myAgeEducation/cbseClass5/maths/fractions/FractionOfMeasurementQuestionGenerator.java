@@ -172,11 +172,13 @@ public class FractionOfMeasurementQuestionGenerator
 
         // Safety fallback
         int step = Math.max(1, correctAnswer / 2);
-
+        int i = 1;
         while (values.size() < 4)
         {
-            int value = correctAnswer + step * values.size();
+            int value = correctAnswer + step * i;
             values.add(value);
+            i++;
+            if (i > 100) break; // Emergency break
         }
 
         List<Integer> valueList = new ArrayList<>(values);

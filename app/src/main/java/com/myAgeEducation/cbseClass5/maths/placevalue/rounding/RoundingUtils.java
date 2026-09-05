@@ -31,57 +31,26 @@ public class RoundingUtils
 
     public static int generateValidNumber(Random random)
     {
-        int thousand = (2 + random.nextInt(8)) * 1000;
-        int firstNumber;
-        firstNumber = thousand - 50 + random.nextInt(100);
-        return firstNumber;
-    }
-
-    public static RoundingNumberPair generateInvalidPair(Random random)
-    {
-        int thousand = (2 + random.nextInt(8)) * 1000;
-
-        int firstNumber;
-        int secondNumber;
-
-        do
-        {
-            firstNumber =
-                    generateNumberAroundThousand(
-                            random,
-                            thousand);
-
-            secondNumber =
-                    generateNumberAroundThousand(
-                            random,
-                            thousand);
-        }
-        while (
-                hasSameRoundingResult(
-                        firstNumber,
-                        100,
-                        1000)
-                        &&
-                        hasSameRoundingResult(
-                                secondNumber,
-                                100,
-                                1000));
-
-        return new RoundingNumberPair(firstNumber, secondNumber);
-    }
-
-    private static int generateNumberAroundThousand(Random random, int thousand)
-    {
         /*
-         * Generate numbers from:
-         *
-         * thousand - 150
-         * through
-         * thousand + 149
-         *
-         * This gives us both valid and invalid
-         * numbers around the selected thousand.
+         * A number is valid for this question if it rounds to the same value
+         * when rounded to the nearest hundred and to the nearest thousand.
+         * 
+         * This happens when the number is within [Thousand - 50, Thousand + 49].
          */
-        return thousand - 150 + random.nextInt(300);
+        int thousand = (2 + random.nextInt(8)) * 1000;
+        return thousand - 50 + random.nextInt(100);
     }
+
+    public static int generateInvalidNumber(Random random)
+    {
+        while (true)
+        {
+            int number = 1000 + random.nextInt(9000);
+            if (!hasSameRoundingResult(number, 100, 1000))
+            {
+                return number;
+            }
+        }
+    }
+
 }

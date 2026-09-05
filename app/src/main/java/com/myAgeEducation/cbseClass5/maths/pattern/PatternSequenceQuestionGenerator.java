@@ -45,9 +45,10 @@ public class PatternSequenceQuestionGenerator {
             if (distractors.size() >= 3) break;
         }
         
+        int extra = val + 1;
         while (distractors.size() < 3) {
-            int extra = val + RANDOM.nextInt(1000) - 500;
             if (extra > 0 && extra != val) distractors.add(extra);
+            extra++;
         }
         
         for (int d : distractors) {

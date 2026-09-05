@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import com.myAgeEducation.cbseClass5.utils.Utility;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +21,7 @@ public class ZooMapImageGenerator {
     private static final int MARGIN = 60;
     private static final float CELL_SIZE = (IMAGE_WIDTH - 2f * MARGIN) / GRID_SIZE;
 
-    private static final int[] LIGHT_BACKGROUND_COLORS =
+    /*private static final int[] LIGHT_BACKGROUND_COLORS =
             {
                     Color.rgb(220, 240, 220), // Light green
                     Color.rgb(220, 235, 250), // Light blue
@@ -27,9 +29,7 @@ public class ZooMapImageGenerator {
                     Color.rgb(245, 235, 250), // Light lavender
                     Color.rgb(250, 245, 210), // Light yellow
                     Color.rgb(235, 240, 225)  // Light olive
-            };
-
-    static Random random = new Random();
+            };*/
 
     private ZooMapImageGenerator() {}
 
@@ -50,10 +50,10 @@ public class ZooMapImageGenerator {
 
         Bitmap bitmap = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        int backgroundColor =
-                LIGHT_BACKGROUND_COLORS[
+        int backgroundColor = Utility.getRandomLightBackgroundColor();
+                /*LIGHT_BACKGROUND_COLORS[
                         random.nextInt(
-                                LIGHT_BACKGROUND_COLORS.length)];
+                                LIGHT_BACKGROUND_COLORS.length)];*/
 
         canvas.drawColor(backgroundColor);
         //canvas.drawColor(Color.rgb(200, 230, 200)); // Light green grass background

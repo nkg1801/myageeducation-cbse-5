@@ -22,10 +22,13 @@ public final class ImageCodeType
     public static final String ZOO_MAP = "ZOO-MAP";
     public static final String NEIGHBORHOOD_MAP = "NEIGHBORHOOD-MAP";
     public static final String METRO_MAP = "METRO-MAP";
+    public static final String HEXAGON_PATTERN = "HEXAGON-PATTERN";
     public static final String PATTERN_SEQUENCE = "PATTERN-SEQUENCE";
     public static final String EQUIVALENT_FRACTION = "EQ-FRAC";
     public static final String RESOURCE_IMAGE = "RESOURCE-IMAGE"; // should use ; as delimiter since resource name can have _
     public static final String TILE_COVERING = "TILE-COVERING";
+    public static final String FRACTION_COMPARISON = "FRAC-COMP";
+
 
     private ImageCodeType()
     {
